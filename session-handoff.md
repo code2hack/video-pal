@@ -2,15 +2,17 @@
 
 ## Current Objective
 
-- Goal: Scaffold Video Pal with a reusable harness skill and root harness files.
-- Current status: Harness scaffold complete; app implementation scope still undefined.
-- Branch / commit: Not a git repository.
+- Goal: Adopt the human / ChatGPT / Codex cowork protocol into the project harness.
+- Current status: Protocol implementation complete locally; push pending.
+- Branch / commit: `main` tracking `origin/main`.
 
 ## Completed This Session
 
 - [x] Read upstream `walkinglabs/learn-harness-engineering`.
 - [x] Copied `skills/harness-creator`.
 - [x] Generated and validated root harness files.
+- [x] Pushed scaffold to `code2hack/video-pal`.
+- [x] Read issue #1 and commented with Codex advice.
 
 ## Verification Evidence
 
@@ -20,6 +22,8 @@
 | Harness validation | `node skills/harness-creator/scripts/validate-harness.mjs --target .` | Pass | 100/100 |
 | Benchmark report | `node skills/harness-creator/scripts/run-benchmark.mjs --target . --html harness-assessment.html` | Pass | Eval coverage 100/100 |
 | Skill validation | `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/harness-creator` | Pass | Skill is valid |
+| Protocol validation | `node skills/harness-creator/scripts/validate-harness.mjs --target .` | Pass | 100/100 after protocol edits |
+| Protocol startup | `./init.sh` | Pass | Generic placeholder verification still expected |
 
 ## Files Changed
 
@@ -31,16 +35,20 @@
 - `skills/harness-creator/`
 - `harness-benchmark.json`
 - `harness-assessment.html`
+- `docs/state/current.md`
+- `docs/state/decisions.md`
 
 ## Decisions Made
 
 - Kept the upstream harness skill intact so its bundled scripts and references remain consistent.
 - Left app verification generic because no application scaffold or package manifest exists yet.
+- The repo is the shared memory bus; binding collaboration rules must live in tracked files.
 
 ## Blockers / Risks
 
 - No app stack is present yet.
 - `init.sh` should be updated after the Video Pal scaffold is created.
+- No app stack is present yet.
 
 ## Next Session Startup
 
@@ -51,4 +59,4 @@
 
 ## Recommended Next Step
 
-- Define the Video Pal app stack and first user-facing feature, then replace placeholder feature entries and verification commands.
+- Define the Video Pal app stack and first user-facing feature.

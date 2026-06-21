@@ -10,16 +10,16 @@
     },
     {
       "id": "feat-002",
-      "name": "Define Video Pal Product Scope",
-      "description": "Replace this placeholder with the first concrete Video Pal behavior, target platform, and acceptance criteria",
+      "name": "Define Agent Communication Protocol",
+      "description": "Record the collaboration protocol for human owner, ChatGPT, and Codex in the project harness before Video Pal app implementation starts",
       "dependencies": ["feat-001"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Issue #1 opened to discuss the cowork protocol. Codex commented with implementation advice, updated AGENTS.md, added docs/state/current.md and docs/state/decisions.md, then ran ./init.sh, node skills/harness-creator/scripts/validate-harness.mjs --target . (100/100), and python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/harness-creator successfully."
     },
     {
       "id": "feat-003",
-      "name": "Verification Coverage",
-      "description": "Add or confirm tests, type checks, linting, or manual verification for the active feature",
+      "name": "Define Video Pal Product Scope",
+      "description": "Replace this placeholder with the first concrete Video Pal behavior, target platform, and acceptance criteria",
       "dependencies": ["feat-002"],
       "status": "not-started",
       "evidence": ""
