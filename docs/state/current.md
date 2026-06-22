@@ -1,27 +1,43 @@
 # Current Project State
 
-Last updated: 2026-06-21 16:02 CST
+Last updated: 2026-06-22 SGT
 
 ## Snapshot
 
-Video Pal is in harness setup. Product implementation has not started.
+Video Pal remains in harness and product-definition setup. Application implementation has not started.
 
-Current active feature: `feat-003` - Define Video Pal Product Scope.
+Current active feature: `feat-006` — Establish Specification-Driven Workflow.
 
 ## Repository State
 
-- Remote: `code2hack/video-pal`
+- Repository: `code2hack/video-pal`
 - Default branch: `main`
-- Harness files exist at the repository root.
-- Reusable harness skill exists at `skills/harness-creator`.
-- No app source, package manifest, or product stack exists yet.
+- Active governance issue: #3
+- Active specification branch: `chatgpt/3-specification-workflow`
+- Active specification PR: draft PR #4
+- Related governance PR: draft PR #2, which overlaps in `AGENTS.md`
+- The bundled harness skill remains under `skills/harness-creator/`.
+- No application manifest or source stack exists.
+
+## Specification State
+
+- `spec/README.md` defines proposed authority, lifecycle, stable IDs, derivation, and verification rules.
+- `spec/product.md` is `draft`.
+- `spec/quality.md` is `draft`.
+- `spec/features/VP-001-mvp.md` is `draft` and contains unresolved product questions.
+- No implementation feature is eligible because no product feature spec is approved.
 
 ## Collaboration State
 
-- Issue #1 defined the cowork protocol for the human owner, ChatGPT, and Codex.
-- The repo and git history are the shared memory bus.
-- Chat-only decisions are provisional until recorded in tracked files.
+- The repository and Git history remain the shared memory bus.
+- ChatGPT is the primary writer for PR #4.
+- Codex is the next actor and must provide DGX Spark verification evidence in PR #4.
+- Human approval is required before the specification system is merged and before any product spec becomes implementation authority.
+
+## Verification State
+
+ChatGPT-container checks passed for specification structure, traceability, Python syntax, and shell syntax. Full `./init.sh` verification on DGX Spark is pending.
 
 ## Next Step
 
-Commit and push the protocol update. After that, define the Video Pal product scope and app stack.
+Codex validates PR #4 on DGX Spark, records exact evidence, and leaves product implementation untouched. ChatGPT then reviews traceability; the human owner decides merge order and authorizes merge.

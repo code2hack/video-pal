@@ -1,44 +1,211 @@
 {
+  "schema_version": 2,
+  "field_ownership": {
+    "planning": [
+      "kind",
+      "name",
+      "description",
+      "spec_ref",
+      "spec_revision",
+      "requirements",
+      "acceptance_criteria",
+      "dependencies"
+    ],
+    "execution": [
+      "status",
+      "branch",
+      "pull_request",
+      "blockers",
+      "evidence"
+    ]
+  },
   "features": [
     {
       "id": "feat-001",
+      "kind": "governance",
       "name": "Project Setup",
       "description": "Confirm the project can install dependencies, run verification, and start from a clean checkout",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
       "dependencies": [],
       "status": "done",
-      "evidence": "Scaffolded harness files and copied skills/harness-creator. Ran ./init.sh, node skills/harness-creator/scripts/validate-harness.mjs --target ., node skills/harness-creator/scripts/run-benchmark.mjs --target . --html harness-assessment.html, and python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/harness-creator successfully."
+      "branch": null,
+      "pull_request": null,
+      "blockers": [],
+      "evidence": [
+        {
+          "summary": "Initial harness startup completed successfully",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Harness structure validated at 100/100",
+          "command": "node skills/harness-creator/scripts/validate-harness.mjs --target .",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Harness benchmark completed at 100/100 evaluation coverage",
+          "command": "node skills/harness-creator/scripts/run-benchmark.mjs --target . --html harness-assessment.html",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        }
+      ]
     },
     {
       "id": "feat-002",
+      "kind": "governance",
       "name": "Define Agent Communication Protocol",
-      "description": "Record the collaboration protocol for human owner, ChatGPT, and Codex in the project harness before Video Pal app implementation starts",
-      "dependencies": ["feat-001"],
+      "description": "Record the collaboration protocol for the human owner, ChatGPT, and Codex before product implementation starts",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-001"
+      ],
       "status": "done",
-      "evidence": "Issue #1 opened to discuss the cowork protocol. Codex commented with implementation advice, updated AGENTS.md, added docs/state/current.md and docs/state/decisions.md, then ran ./init.sh, node skills/harness-creator/scripts/validate-harness.mjs --target . (100/100), and python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/harness-creator successfully."
+      "branch": null,
+      "pull_request": null,
+      "blockers": [],
+      "evidence": [
+        {
+          "summary": "Protocol harness startup completed successfully after the communication rules were added",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "1b6eec77e9d5d29d77dc3b1a27303c2b74aefd76",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Protocol harness structure validated at 100/100",
+          "command": "node skills/harness-creator/scripts/validate-harness.mjs --target .",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "1b6eec77e9d5d29d77dc3b1a27303c2b74aefd76",
+          "acceptance_criteria": []
+        }
+      ]
+    },
+    {
+      "id": "feat-006",
+      "kind": "governance",
+      "name": "Establish Specification-Driven Workflow",
+      "description": "Add product specifications, stable traceability IDs, merge-safe feature state, and executable specification validation",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-002"
+      ],
+      "status": "in-progress",
+      "branch": "chatgpt/3-specification-workflow",
+      "pull_request": 4,
+      "blockers": [
+        "Human review and merge authorization",
+        "DGX Spark verification by Codex",
+        "Reconcile AGENTS.md overlap with draft PR #2 before merge"
+      ],
+      "evidence": [
+        {
+          "summary": "Specification structure and lifecycle checks passed before publication",
+          "command": "python3 scripts/validate_specs.py",
+          "result": "pass",
+          "environment": "ChatGPT container",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Feature-to-spec traceability checks passed before publication",
+          "command": "python3 scripts/check_traceability.py",
+          "result": "pass",
+          "environment": "ChatGPT container",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Python validator sources compiled successfully before publication",
+          "command": "python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py",
+          "result": "pass",
+          "environment": "ChatGPT container",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Startup script shell syntax passed before publication",
+          "command": "bash -n init.sh",
+          "result": "pass",
+          "environment": "ChatGPT container",
+          "commit": null,
+          "acceptance_criteria": []
+        }
+      ]
     },
     {
       "id": "feat-003",
+      "kind": "product-definition",
       "name": "Define Video Pal Product Scope",
-      "description": "Replace this placeholder with the first concrete Video Pal behavior, target platform, and acceptance criteria",
-      "dependencies": ["feat-002"],
+      "description": "Approve the first complete Video Pal behavior, target platform, quality constraints, and independently verifiable acceptance criteria",
+      "spec_ref": "spec/features/VP-001-mvp.md",
+      "spec_revision": 1,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-006"
+      ],
       "status": "not-started",
-      "evidence": ""
+      "branch": null,
+      "pull_request": null,
+      "blockers": [
+        "Human product choices are still unresolved"
+      ],
+      "evidence": []
     },
     {
       "id": "feat-004",
+      "kind": "documentation",
       "name": "Documentation Update",
-      "description": "Update README, architecture notes, or product docs affected by the implemented feature",
-      "dependencies": ["feat-003"],
+      "description": "Update README, architecture notes, or product docs affected by the approved and implemented feature",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-003"
+      ],
       "status": "not-started",
-      "evidence": ""
+      "branch": null,
+      "pull_request": null,
+      "blockers": [],
+      "evidence": []
     },
     {
       "id": "feat-005",
+      "kind": "handoff",
       "name": "Cleanup and Handoff",
-      "description": "Record verification evidence, update progress.md, and leave a clear next-session path",
-      "dependencies": ["feat-004"],
+      "description": "Record verification evidence, update durable state, and leave a clear next-session path",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-004"
+      ],
       "status": "not-started",
-      "evidence": ""
+      "branch": null,
+      "pull_request": null,
+      "blockers": [],
+      "evidence": []
     }
   ]
 }

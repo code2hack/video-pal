@@ -1,15 +1,36 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT_DIR"
 
 echo "=== Harness Initialization ==="
 
-echo "=== echo \"No package manifest detected; replace this line with your project verification command.\" ==="
-echo "No package manifest detected; replace this line with your project verification command."
+echo "=== Specification Validation ==="
+python3 scripts/validate_specs.py
+
+echo "=== Feature Traceability Validation ==="
+python3 scripts/check_traceability.py
+
+echo "=== Structural Harness Validation ==="
+if ! command -v node >/dev/null 2>&1; then
+  echo "ERROR: node is required to run the structural harness validator." >&2
+  exit 1
+fi
+node skills/harness-creator/scripts/validate-harness.mjs --target .
+
+echo "=== Application Verification ==="
+if [[ -f pyproject.toml || -f package.json || -f Cargo.toml || -f go.mod ]]; then
+  echo "ERROR: an application manifest exists but init.sh has no application verification command yet." >&2
+  exit 1
+else
+  echo "No application manifest detected; product implementation is not yet approved."
+fi
 
 echo "=== Verification Complete ==="
-echo ""
+echo
 echo "Next steps:"
-echo "1. Read feature_list.json to see current feature state"
-echo "2. Pick ONE unfinished feature to work on"
-echo "3. Implement only that feature"
-echo "4. Re-run verification before claiming done"
+echo "1. Read AGENTS.md and spec/README.md"
+echo "2. Read feature_list.json and the active feature specification"
+echo "3. Work on exactly one eligible feature"
+echo "4. Re-run ./init.sh before claiming completion"

@@ -2,68 +2,82 @@
 
 ## Current State
 
-**Last Updated:** 2026-06-21 16:02 CST
-**Session ID:** protocol-harness
-**Active Feature:** feat-003 - Define Video Pal Product Scope
+**Last Updated:** 2026-06-22 SGT  
+**Session ID:** specification-workflow  
+**Active Feature:** feat-006 - Establish Specification-Driven Workflow  
+**Active Issue / PR:** #3 / draft PR #4  
+**Active Branch:** `chatgpt/3-specification-workflow`
 
 ## Status
 
 ### What's Done
 
-- [x] Read upstream `walkinglabs/learn-harness-engineering` repository
-- [x] Copied `skills/harness-creator` into this workspace
-- [x] Generated root harness files: `AGENTS.md`, `feature_list.json`, `progress.md`, `session-handoff.md`, `init.sh`
-- [x] Generated structural reports: `harness-benchmark.json`, `harness-assessment.html`
-- [x] Initialized git and pushed scaffold to `code2hack/video-pal`
-- [x] Read issue #1 and commented with Codex protocol advice
+- [x] Existing harness scaffold and agent communication protocol are merged on `main`.
+- [x] Issue #3 records the specification-driven workflow scope and acceptance criteria.
+- [x] Draft PR #4 and its focused ChatGPT branch are open.
+- [x] Added layered draft specifications for product, quality, and the first MVP decision scaffold.
+- [x] Added stable specification, requirement, acceptance-criterion, and quality ID rules.
+- [x] Migrated `feature_list.json` to schema version 2 with separate planning and execution fields.
+- [x] Added dependency-free specification and traceability validators.
+- [x] Integrated specification, traceability, and structural harness checks into `init.sh`.
+- [x] Removed the accidental `tmp-test.txt` branch artifact.
 
 ### What's In Progress
 
-- [ ] Define the actual Video Pal product scope
-  - Details: choose first user-facing feature, platform, and verification commands once app stack exists
-  - Blockers: no app source or package manifest exists yet
+- [ ] Human review of specification authority, lifecycle, and feature-list ownership.
+- [ ] Codex validation of PR #4 on the DGX Spark.
+- [ ] Merge-order reconciliation with draft PR #2, which also edits `AGENTS.md`.
 
 ### What's Next
 
-1. Commit and push the protocol update.
-2. Define Video Pal product scope and app stack.
-3. Replace placeholder verification command in `init.sh` after app scaffold exists.
+1. Codex checks out `chatgpt/3-specification-workflow` and runs the exact verification commands listed in PR #4.
+2. Codex records the DGX Spark environment, command output, failures, and remaining risks in PR #4.
+3. ChatGPT reviews the final diff and traceability after any fixes.
+4. Human owner approves or revises the governance rules and explicitly authorizes merge.
+5. After the governance PRs are settled, begin `feat-003` by resolving the open questions in `spec/product.md`, `spec/quality.md`, and `spec/features/VP-001-mvp.md`.
 
 ## Blockers / Risks
 
-- [ ] No package manifest detected: `./init.sh` currently verifies the harness path only, not application code.
+- [ ] Product scope is intentionally unresolved; all initial product specifications remain `draft`.
+- [ ] No application implementation is eligible until the human owner approves a feature spec.
+- [ ] PR #2 and PR #4 overlap in `AGENTS.md`; the second PR merged will require rebase and review.
+- [ ] ChatGPT-container checks do not prove DGX Spark execution.
 
 ## Decisions Made
 
-- **Use upstream harness skill unchanged**: copied the self-contained skill package so its scripts, templates, references, and evals remain runnable.
-  - Context: the workspace was empty and the user asked to read the referenced repo first.
-  - Alternatives considered: hand-writing only root harness files, which would lose the reusable skill scripts.
-- **Repository is the shared memory bus**: future collaboration between human owner, ChatGPT, and Codex should persist through tracked files, issues/PRs, and git history instead of chat-only memory.
-  - Context: issue #1 proposed the cowork protocol.
-  - Alternatives considered: keeping process rules only in GitHub issues, which would make fresh local sessions less restartable.
+- **Use multiple small specifications:** product, quality, feature, and template files have separate authority.
+- **Human approval controls product behavior:** draft specs cannot authorize application implementation.
+- **Use stable traceability IDs:** `VP-NNN`, `VP-NNN-REQ-NNN`, `VP-NNN-AC-NNN`, and `QUAL-NNN`.
+- **Separate planning from execution state:** future generators preserve Codex status, blockers, branches, PRs, and evidence.
+- **Treat tests as evidence:** tests map to acceptance criteria but do not redefine approved behavior.
 
 ## Files Modified This Session
 
-- `AGENTS.md` - root agent operating manual
-- `feature_list.json` - feature state tracker
-- `progress.md` - session continuity log
-- `session-handoff.md` - handoff template
-- `init.sh` - startup and verification entrypoint
-- `skills/harness-creator/` - reusable harness creation and validation skill
-- `harness-benchmark.json` - generated structural benchmark report
-- `harness-assessment.html` - generated HTML benchmark report
-- `docs/state/current.md` - current shared project state
-- `docs/state/decisions.md` - durable decision log
+- `AGENTS.md`
+- `feature_list.json`
+- `init.sh`
+- `progress.md`
+- `session-handoff.md`
+- `docs/state/current.md`
+- `docs/state/decisions.md`
+- `spec/README.md`
+- `spec/product.md`
+- `spec/quality.md`
+- `spec/features/VP-001-mvp.md`
+- `spec/templates/feature-spec.md`
+- `scripts/spec_utils.py`
+- `scripts/validate_specs.py`
+- `scripts/check_traceability.py`
+- deleted `tmp-test.txt`
 
-## Evidence of Completion
+## Verification Evidence
 
-- [x] Harness startup: `./init.sh` completed successfully
-- [x] Harness validation: `node skills/harness-creator/scripts/validate-harness.mjs --target .` returned 100/100
-- [x] Benchmark: `node skills/harness-creator/scripts/run-benchmark.mjs --target . --html harness-assessment.html` returned 100/100 eval coverage
-- [x] Skill validation: `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/harness-creator` returned `Skill is valid!`
-- [x] Protocol harness validation: `node skills/harness-creator/scripts/validate-harness.mjs --target .` returned 100/100 after protocol edits
-- [x] Protocol startup check: `./init.sh` completed successfully after protocol edits
+- [x] `python3 scripts/validate_specs.py` — pass in ChatGPT container.
+- [x] `python3 scripts/check_traceability.py` — pass in ChatGPT container.
+- [x] `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` — pass in ChatGPT container.
+- [x] `bash -n init.sh` — pass in ChatGPT container.
+- [ ] `./init.sh` — pending on DGX Spark after branch publication because the ChatGPT container does not contain the repository's bundled harness skill.
 
 ## Notes for Next Session
 
-Protocol adoption is complete locally and ready to push. The next useful task is to define the Video Pal app stack and first feature, then replace the generic verification command in `init.sh`.
+The specification system is a governance proposal in draft PR #4, not merged project truth. Do not start application implementation from the draft MVP spec. The exact next actor is Codex, responsible for DGX Spark validation and evidence on PR #4.
