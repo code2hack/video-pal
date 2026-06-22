@@ -1,0 +1,24 @@
+{
+  "pull_requests": [
+    {
+      "type": "pull_request",
+      "number": 42,
+      "title": "Later eligible PR",
+      "state": "open",
+      "head_branch": "codex/42-later",
+      "labels": ["ready:project-loop"],
+      "priority": 20,
+      "dependencies": []
+    },
+    {
+      "type": "pull_request",
+      "number": 7,
+      "title": "First eligible PR",
+      "state": "open",
+      "head_branch": "codex/7-first",
+      "labels": ["ready:project-loop"],
+      "priority": 10,
+      "dependencies": []
+    }
+  ]
+}

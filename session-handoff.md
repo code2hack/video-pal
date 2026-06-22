@@ -2,10 +2,10 @@
 
 ## Current Objective
 
-- Goal: define a reusable, product-agnostic project-loop protocol and portable naming contract from issue #5.
-- Current status: draft PR #6 is rebased onto updated `main` after PR #4 merged, DGX Spark verification passed, and Codex has applied the requested state-file cleanup.
-- Branch: `chatgpt/5-project-loop-protocol`.
-- Primary writer: ChatGPT.
+- Goal: implement project-loop v1 Stage 0 dry-run selector from issue #7.
+- Current status: Stage 0 implementation pushed in draft PR #8; issue evidence comment pending.
+- Branch: `codex/7-project-loop-v1`.
+- Primary writer: Codex.
 - Codex implementation issue: #7.
 
 ## Completed This Session
@@ -15,15 +15,12 @@
 - [x] Updated `AGENTS.md` with project-loop invariants.
 - [x] Standardized reusable names on `project-*`.
 - [x] Defined one-item cycles, worktree isolation, maker/checker separation, bounded repair, durable receipts, and human gates.
-- [x] Opened draft PR #6.
+- [x] Opened stacked draft PR #6.
 - [x] Opened Codex-owned implementation issue #7 with required paths, stages, tests, evidence, and branch name.
-- [x] Rebasing prerequisite complete: PR #2 and PR #4 are merged into `main`.
-- [x] Rebased `chatgpt/5-project-loop-protocol` onto updated `main`.
-- [x] Reconciled `AGENTS.md` by preserving branch/identity governance, specification workflow governance, and project-loop governance.
-- [x] Ran DGX Spark verification on the rebased PR #6 branch.
-- [x] Pushed the rebased PR #6 branch, retargeted PR #6 to `main`, and posted DGX verification evidence.
-- [x] ChatGPT reviewed the rebased PR #6 and requested state-file cleanup only.
-- [x] Updated state files so completed push, retarget, and evidence-posting work is no longer listed as pending.
+- [x] Received human approval for Stage 0 only.
+- [x] Added Stage 0 project-loop configuration, selector, receipt validator, run wrapper, skill, checker contract, fixtures, and tests.
+- [x] Kept repair disabled and GitHub writes disabled by default.
+- [x] Opened draft PR #8 stacked on `chatgpt/5-project-loop-protocol`.
 
 ## Verification Evidence
 
@@ -32,11 +29,14 @@
 | Protocol coverage | Manual review of `docs/project-loop.md` against issue #5 | Pass | ChatGPT GitHub connector | All requested design areas represented |
 | Harness consistency | Manual comparison of `AGENTS.md` and `docs/project-loop.md` | Pass | ChatGPT GitHub connector | Detailed design remains in the doc; invariants are in AGENTS |
 | Portable naming | Review all proposed reusable paths | Pass | ChatGPT GitHub connector | Uses `project-*`; no product-specific reusable path |
-| Full startup | `./init.sh` | Pass | DGX Spark | Specification validation passed; traceability passed for 8 features; structural harness validation 100/100 |
-| Diff check | `git diff --check origin/main...HEAD && git diff --check` | Pass | DGX Spark | No whitespace errors |
-| Feature JSON | `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json` | Pass | DGX Spark | Feature state parses as JSON |
-| Python syntax | `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` | Pass | DGX Spark | No syntax errors |
-| Loop implementation tests | Commands in issue #7 | Not started | DGX Spark | Separate Codex-owned scope |
+| Full startup | `./init.sh` | Pending | DGX Spark | Codex must run after the stacked branch is ready |
+| Python compile | `python3 -m py_compile scripts/project-loop/select_work.py scripts/project-loop/validate_receipt.py` | Pass | DGX Spark | Stage 0 scripts compile |
+| Loop tests | `python3 -m pytest tests/project-loop` | Pass | DGX Spark | 11 tests |
+| Shell syntax | `bash -n scripts/project-loop/run_cycle.sh` | Pass | DGX Spark | Stage 0 wrapper only |
+| Receipt fixture | `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` | Pass | DGX Spark | Deterministic schema validation |
+| Skill validation | `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | Project-loop skill is valid |
+| Full startup | `./init.sh` | Pass | DGX Spark | Includes project-loop checks |
+| Diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
 
 ## Decisions Recorded
 
@@ -47,24 +47,26 @@
 - Repair defaults off and, when enabled later, is bounded to three attempts unless approved otherwise.
 - Essential run state is published as a durable issue/PR receipt.
 - Human product, architecture, deployment, destructive-action, and merge gates remain intact.
+- Stage 0 is authorized; Stage 1 and Stage 2 are not authorized.
 
 ## Blockers / Risks
 
-- PR #6 is still draft and requires ChatGPT cleanup re-review before merge authorization.
-- Human merge authorization is still required.
-- PR #8 and PR #11 are downstream and require retargeting or rebasing after PR #6.
-- Stage 1 read-only PR verification is not authorized.
-- Stage 2 repair mode is not authorized.
+- Draft PR #6 is stacked on draft PR #4.
+- Draft PR #2 also changes `AGENTS.md`; all governance changes require ordered reconciliation.
+- No DGX Spark execution evidence exists for PR #6.
+- Stage 1 read-only PR verification requires separate human approval.
+- Stage 2 repair mode requires separate human approval.
 - Product specifications remain draft; product feature implementation is not eligible.
 
 ## Next Session Startup
 
-1. Read `AGENTS.md`, `docs/project-loop.md`, all state files, issue #5, issue #7, and PR #6.
-2. Confirm the current state of PRs #6, #8, and #11.
-3. Do not assume the project-loop protocol is merged project truth until PR #6 merges.
-4. Do not enable Stage 1, Stage 2, repair, merge, deployment, product implementation, or privileged commands without separate authorization.
+1. Read `AGENTS.md`, `docs/project-loop.md`, all state files, issue #7, and the draft PR for this branch.
+2. Run `./init.sh`.
+3. Review `project-loop.toml` before changing any loop behavior.
+4. Do not enable Stage 1, Stage 2, GitHub writes, repair, merge, or deployment without separate human approval.
 
 ## Exact Next Action
 
-**ChatGPT:** re-review only the state cleanup and prepare the merge authorization packet if satisfied.
-**Human owner:** approve/revise the protocol and explicitly authorize merge.
+**Codex:** post exact evidence to issue #7 and stop for review.
+**ChatGPT afterward:** review Stage 0 for conformity with issue #5 and PR #6.
+**Human owner:** decide whether to authorize Stage 1 later.

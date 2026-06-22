@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Loop"
+  short_description: "Run bounded project-loop selection and receipts"
+  default_prompt: "Use the project-loop skill to run one safe dry-run selection cycle and produce a receipt."

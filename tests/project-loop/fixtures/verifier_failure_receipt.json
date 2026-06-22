@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-06-22T00:00:00Z-pr-4",
+  "actor": "codex",
+  "runtime": "DGX Spark",
+  "work_item": {
+    "type": "pull_request",
+    "number": 4,
+    "title": "Fixture verifier failure"
+  },
+  "claim": {
+    "branch": "codex/fixture",
+    "starting_commit": "abc123",
+    "claimed_at": "2026-06-22T00:00:00Z"
+  },
+  "timestamp": "2026-06-22T00:00:01Z",
+  "starting_commit": "abc123",
+  "ending_commit": "abc123",
+  "attempts": 0,
+  "commands": [
+    {
+      "command": "./init.sh",
+      "exit_code": 1,
+      "summary": "failed"
+    }
+  ],
+  "changed_files": [],
+  "validation_delta": [
+    {
+      "kind": "command",
+      "summary": "init failed"
+    }
+  ],
+  "checker_result": "fail",
+  "stop_reason": "verifier-failed",
+  "next_actor": "codex",
+  "known_risks": []
+}

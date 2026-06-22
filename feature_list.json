@@ -261,15 +261,64 @@
       "dependencies": [
         "feat-007"
       ],
-      "status": "blocked",
-      "branch": null,
-      "pull_request": null,
+      "status": "in-progress",
+      "branch": "codex/7-project-loop-v1",
+      "pull_request": 8,
       "blockers": [
-        "Protocol issue #5 and draft PR #6 require human approval",
-        "Prerequisite governance PRs require merge-order reconciliation",
-        "Human must authorize movement from planning to Stage 0 implementation"
+        "Stage 1 read-only PR verification requires separate human approval",
+        "Stage 2 repair mode requires separate human approval",
+        "Draft PR review and merge authorization pending"
       ],
-      "evidence": []
+      "evidence": [
+        {
+          "summary": "Stage 0 dry-run selector, receipt validation, fixture tests, and project-loop skill validate locally",
+          "command": "python3 -m pytest tests/project-loop",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Project-loop receipt fixture validates deterministically",
+          "command": "python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Project-loop shell wrapper has valid Bash syntax",
+          "command": "bash -n scripts/project-loop/run_cycle.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Project-loop skill frontmatter validates",
+          "command": "python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Full harness startup validates specification, traceability, structural harness, and project-loop checks",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Whitespace and patch sanity checks passed",
+          "command": "git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        }
+      ]
     },
     {
       "id": "feat-003",
