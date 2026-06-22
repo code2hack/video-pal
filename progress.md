@@ -3,87 +3,77 @@
 ## Current State
 
 **Last Updated:** 2026-06-24 SGT
-**Session ID:** specification-workflow
-**Active Feature:** feat-006 - Establish Specification-Driven Workflow
-**Active Issue / PR:** #3 / draft PR #4
-**Active Branch:** `chatgpt/3-specification-workflow`
+**Session ID:** project-loop-protocol
+**Active Feature:** feat-007 - Define Reusable Project Loop Protocol
+**Active Issue / PR:** #5 / draft PR #6
+**Active Branch:** `chatgpt/5-project-loop-protocol`
 
 ## Status
 
 ### What's Done
 
-- [x] Existing harness scaffold and agent communication protocol are merged on `main`.
-- [x] Issue #3 records the specification-driven workflow scope and acceptance criteria.
-- [x] Draft PR #4 and its focused ChatGPT branch are open.
-- [x] Added layered draft specifications for product, quality, and the first MVP decision scaffold.
-- [x] Added stable specification, requirement, acceptance-criterion, and quality ID rules.
-- [x] Migrated `feature_list.json` to schema version 2 with separate planning and execution fields.
-- [x] Added dependency-free specification and traceability validators.
-- [x] Integrated specification, traceability, and structural harness checks into `init.sh`.
-- [x] Removed the accidental `tmp-test.txt` branch artifact.
-- [x] Merged `origin/main` after PR #2 into `chatgpt/3-specification-workflow`.
-- [x] Reconciled the `AGENTS.md` role-boundary overlap by preserving PR #2 actor/branch ownership rules and PR #4 specification workflow rules.
-- [x] Fixed trailing Markdown whitespace found by `git diff --check`.
-- [x] Completed DGX Spark validation for PR #4.
+- [x] Existing harness communication protocol is merged on `main`.
+- [x] Branch, file-ownership, and actor-identity protocol from PR #2 is merged.
+- [x] Specification-driven workflow from PR #4 is merged.
+- [x] Issue #5 records the portable project-loop governance scope and acceptance criteria.
+- [x] Added `docs/project-loop.md` with the harness/loop distinction, generic naming contract, bounded state machine, worktree isolation, maker/checker separation, durable receipts, human gates, and staged rollout.
+- [x] Updated `AGENTS.md` with portable project-loop invariants.
+- [x] Opened Codex-owned issue #7 for DGX Spark implementation using generic `project-*` paths.
+- [x] Rebased `chatgpt/5-project-loop-protocol` onto updated `main` after PR #4 merged.
+- [x] Reconciled the `AGENTS.md` role-boundary overlap by preserving branch/identity rules, specification workflow rules, and project-loop protocol rules.
 
 ### What's In Progress
 
-- [ ] Human review of specification authority, lifecycle, and feature-list ownership.
-- [ ] ChatGPT review after Codex DGX validation and PR #2 reconciliation.
+- [ ] Run DGX Spark verification for the rebased PR #6 branch.
+- [ ] Post PR #6 evidence for ChatGPT review.
 
 ### What's Next
 
-1. Push the reconciled PR #4 branch and post DGX evidence in PR #4.
-2. ChatGPT reviews the final diff and traceability after Codex reconciliation.
-3. Human owner approves or revises the governance rules and explicitly authorizes merge.
-4. After PR #4 merges, retarget or rebase PR #6 and continue the governance stack.
-5. Product implementation remains blocked until the human owner approves a product feature spec.
+1. Run `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json`.
+2. Record verification evidence in durable state and PR #6.
+3. ChatGPT reviews the rebased project-loop protocol.
+4. Human owner explicitly authorizes merge if satisfied.
+5. After PR #6 merges, retarget or rebase downstream PR #8 and then PR #11.
 
 ## Blockers / Risks
 
-- [ ] Product scope is intentionally unresolved; all initial product specifications remain `draft`.
-- [ ] No application implementation is eligible until the human owner approves a feature spec.
-- [ ] PR #4 is still draft and requires ChatGPT review after Codex reconciliation.
+- [ ] PR #6 is still draft and requires ChatGPT review after Codex rebase/verification.
 - [ ] Human merge authorization is still required.
+- [ ] PR #8 and PR #11 remain downstream and require retargeting or rebasing after PR #6.
+- [ ] Stage 1 read-only PR verification is not authorized.
+- [ ] Stage 2 repair is not authorized and remains disabled.
+- [ ] Product scope remains intentionally unresolved; product implementation is still ineligible.
 
 ## Decisions Made
 
-- **Use multiple small specifications:** product, quality, feature, and template files have separate authority.
-- **Human approval controls product behavior:** draft specs cannot authorize application implementation.
-- **Use stable traceability IDs:** `VP-NNN`, `VP-NNN-REQ-NNN`, `VP-NNN-AC-NNN`, and `QUAL-NNN`.
-- **Separate planning from execution state:** future generators preserve Codex status, blockers, branches, PRs, and evidence.
-- **Treat tests as evidence:** tests map to acceptance criteria but do not redefine approved behavior.
+- **Use portable framework names:** reusable harness and loop artifacts use `project-*`, not the repository or product name.
+- **Separate harness and loop:** the harness defines one reliable run; the loop discovers, invokes, checks, records, and transitions between bounded runs.
+- **Begin with PR verification:** Loop v1 targets pull-request selection and verification before autonomous feature implementation.
+- **Use isolated worktrees:** modifying runs must not share a checkout with human or other agent work.
+- **Separate maker and checker:** unattended changes require an independent read-only verifier.
+- **Bound all repair:** default maximum is three attempts and repair remains disabled until earlier stages are proven.
+- **Use durable receipts:** essential run state is posted to GitHub; raw local logs alone are insufficient.
+- **Preserve human gates:** product acceptance, architecture, secrets, deployment, destructive actions, governance exceptions, and merge remain human-controlled.
 
 ## Files Modified This Session
 
 - `AGENTS.md`
+- `docs/project-loop.md`
 - `feature_list.json`
-- `init.sh`
 - `progress.md`
 - `session-handoff.md`
 - `docs/state/current.md`
 - `docs/state/decisions.md`
-- `spec/README.md`
-- `spec/product.md`
-- `spec/quality.md`
-- `spec/features/VP-001-mvp.md`
-- `spec/templates/feature-spec.md`
-- `scripts/spec_utils.py`
-- `scripts/validate_specs.py`
-- `scripts/check_traceability.py`
-- deleted `tmp-test.txt`
 
 ## Verification Evidence
 
-- [x] `python3 scripts/validate_specs.py` — pass in ChatGPT container.
-- [x] `python3 scripts/check_traceability.py` — pass in ChatGPT container.
-- [x] `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` — pass in ChatGPT container.
-- [x] `bash -n init.sh` — pass in ChatGPT container.
-- [x] `./init.sh` — pass on DGX Spark after merging `origin/main`.
-- [x] `git diff --check origin/main...HEAD && git diff --check` — pass on DGX Spark after whitespace cleanup.
-- [x] `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` — pass on DGX Spark.
-- [x] `python3 -m json.tool feature_list.json >/tmp/video-pal-pr4-feature-list.json` — pass on DGX Spark.
+- [x] `docs/project-loop.md` manually reviewed against issue #5 acceptance criteria through the GitHub connector.
+- [x] `AGENTS.md` manually checked for consistency with `docs/project-loop.md`.
+- [x] Generic path examples contain no product-specific harness or loop names.
+- [ ] `./init.sh` on the rebased PR #6 branch.
+- [ ] `git diff --check`.
+- [ ] `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json`.
 
 ## Notes for Next Session
 
-The specification system is a governance proposal in draft PR #4, not merged project truth. Do not start application implementation from the draft MVP spec. PR #4 has been reconciled with merged PR #2 and validated on DGX Spark; the next actor is ChatGPT for review, then the human owner for merge authorization.
+This branch records governance and design only. It does not implement or schedule automation. Stage 1, Stage 2 repair, product implementation, merge, deployment, and privileged operations remain gated by separate authorization.
