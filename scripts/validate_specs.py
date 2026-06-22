@@ -7,11 +7,11 @@ import sys
 from pathlib import Path
 
 from spec_utils import (
+    AC_ID_RE,
     ALLOWED_SPEC_STATUSES,
     FEATURE_ID_RE,
     QUALITY_ID_RE,
     REQ_ID_RE,
-    AC_ID_RE,
     SpecError,
     heading_ids,
     parse_front_matter,
@@ -26,6 +26,10 @@ REQUIRED_FILES = [
 ]
 COMMON_META = {"id", "title", "status", "revision", "decision_owner", "approval_ref"}
 FEATURE_META = COMMON_META | {"depends_on", "supersedes", "superseded_by"}
+REQUIRED_DOCUMENT_SECTIONS = {
+    "product.md": ["Vision", "Users", "Jobs to be done", "Initial release scope", "Non-goals", "Product constraints", "Success measures", "Open questions", "Approval"],
+    "quality.md": ["Privacy and data handling", "Performance", "Reliability and recovery", "Portability and deployment", "Accessibility and usability", "Security", "Observability", "Approval"],
+}
 REQUIRED_FEATURE_SECTIONS = [
     "Problem",
     "Goals",
@@ -82,7 +86,13 @@ def main() -> int:
         except SpecError as exc:
             error(errors, str(exc))
             continue
-        validate_lifecycle(path.relative_to(ROOT), meta, errors)
+        rel = path.relative_to(ROOT)
+        validate_lifecycle(rel, meta, errors)
+        for section in REQUIRED_DOCUMENT_SECTIONS[path.name]:
+            if f"## {section}" not in body:
+                error(errors, f"{rel}: missing section '## {section}'")
+        if meta.get("status") in {"approved", "implemented"} and "TBD" in body.upper():
+            error(errors, f"{rel}: approved specification contains TBD")
         spec_id = meta.get("id")
         if spec_id in seen_specs:
             error(errors, f"duplicate specification id {spec_id}: {path} and {seen_specs[spec_id]}")
@@ -97,8 +107,6 @@ def main() -> int:
                 seen_normative_ids[quality_id] = path
             if meta.get("status") in {"approved", "implemented"} and not quality_ids:
                 error(errors, f"{path.relative_to(ROOT)}: approved quality spec needs at least one QUAL-NNN heading")
-            if meta.get("status") in {"approved", "implemented"} and "TBD" in body.upper():
-                error(errors, f"{path.relative_to(ROOT)}: approved quality spec contains TBD")
 
     feature_paths = sorted((ROOT / "spec" / "features").glob("*.md"))
     if not feature_paths:
