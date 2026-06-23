@@ -225,7 +225,7 @@ def test_output_rejects_tracked_file_even_with_overbroad_run_root(tmp_path: Path
         output_arg=target,
     )
     assert result.returncode != 0
-    assert "tracked repository file" in result.stderr
+    assert "runtime.run_root" in result.stderr
     assert target.read_text(encoding="utf-8") == before
 
 
@@ -239,8 +239,29 @@ def test_output_rejects_protected_path_even_with_overbroad_run_root(tmp_path: Pa
         output_arg=target,
     )
     assert result.returncode != 0
-    assert "protected path" in result.stderr
+    assert "runtime.run_root" in result.stderr
     assert target.read_text(encoding="utf-8") == before
+
+
+def test_output_rejects_root_level_untracked_file_with_repo_run_root(tmp_path: Path) -> None:
+    target = ROOT / f"stage0-root-output-{tmp_path.name}.json"
+    assert not target.exists()
+    result = run_select(
+        {"pull_requests": []},
+        tmp_path,
+        config=config_text(tmp_path, run_root=ROOT),
+        output_arg=target,
+    )
+    assert result.returncode != 0
+    assert "runtime.run_root" in result.stderr
+    assert not target.exists()
+
+
+def test_default_in_repo_project_loop_run_root_is_allowed() -> None:
+    module = load_select_module()
+    config = module.load_config(ROOT / "project-loop.toml")
+    output = module.safe_output_path(config, ".project-loop/runs/receipt.json")
+    assert output == (ROOT / ".project-loop" / "runs" / "receipt.json").resolve(strict=False)
 
 
 def test_output_rejects_traversal_outside_run_root(tmp_path: Path) -> None:

@@ -274,12 +274,46 @@ def is_protected_path(path: Path, patterns: list[str]) -> bool:
     return any(fnmatch.fnmatch(rel_path, pattern) for pattern in patterns)
 
 
+def is_ignored_path(path: Path) -> bool:
+    try:
+        rel_path = path.relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return False
+
+    result = subprocess.run(
+        ["git", "check-ignore", "-q", "--", rel_path],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise RuntimeError(f"cannot determine whether runtime.run_root is ignored: {rel_path}")
+
+
+def validate_run_root(run_root: Path) -> None:
+    root = ROOT.resolve()
+    try:
+        rel_path = run_root.relative_to(root)
+    except ValueError:
+        return
+
+    if rel_path.parts[:1] != (".project-loop",):
+        raise ValueError("in-repository runtime.run_root must be under ignored .project-loop/")
+    if not is_ignored_path(run_root):
+        raise ValueError("in-repository runtime.run_root must be Git-ignored")
+
+
 def safe_output_path(config: dict[str, Any], value: str) -> Path:
     run_root_value = config["runtime"].get("run_root")
     if not isinstance(run_root_value, str) or not run_root_value:
         raise ConfigError("runtime.run_root must be a non-empty string")
 
     run_root = resolve_path(run_root_value).resolve(strict=False)
+    validate_run_root(run_root)
     output = resolve_path(value).resolve(strict=False)
 
     try:
