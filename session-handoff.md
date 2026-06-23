@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: implement project-loop v1 Stage 0 dry-run selector from issue #7.
-- Current status: Stage 0 implementation is in draft PR #8; PR review hardening is committed and updated evidence is ready to post.
+- Current status: Stage 0 implementation is in draft PR #8; PR review hardening is pushed and updated evidence is posted.
 - Branch: `codex/7-project-loop-v1`.
 - Primary writer: Codex.
 - Codex implementation issue: #7.
@@ -68,6 +68,5 @@
 
 ## Exact Next Action
 
-**Codex:** push PR #8 review fixes, post exact evidence to PR #8 and issue #7, and stop for review.
-**ChatGPT afterward:** review Stage 0 for conformity with issue #5 and PR #6.
+**ChatGPT:** re-review Stage 0 fixes in PR #8 for conformity with issue #5 and PR #6.
 **Human owner:** decide whether to authorize Stage 1 later.

@@ -57,4 +57,4 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 
 ## Next Step
 
-Codex posts updated PR #8 review-fix evidence to PR #8 and issue #7, then stops for ChatGPT/human review. Stage 1 and repair require separate human approval.
+ChatGPT re-reviews PR #8 Stage 0 fixes. Stage 1 and repair require separate human approval.

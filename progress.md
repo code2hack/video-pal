@@ -29,14 +29,14 @@
 ### What's In Progress
 
 - [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
-- [ ] Post updated Stage 0 review-fix evidence in PR #8 and issue #7.
-- [ ] Stop for human/ChatGPT review before Stage 1.
+- [x] Posted updated Stage 0 review-fix evidence in PR #8 and issue #7.
+- [x] Stopped for human/ChatGPT review before Stage 1.
 
 ### What's Next
 
-1. Push PR #8 review-fix commits.
-2. Post updated evidence to PR #8 and issue #7.
-3. Stop for review.
+1. ChatGPT re-reviews PR #8 Stage 0 fixes.
+2. Human owner decides whether to authorize any later Stage 1 work.
+3. Keep Stage 2 repair disabled until separate approval.
 
 ## Blockers / Risks
 
