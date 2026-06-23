@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Last Updated:** 2026-06-22
+**Last Updated:** 2026-06-23
 **Session ID:** project-loop-stage0
 **Active Feature:** feat-008 - Implement Project Loop v1, Stage 0 only
 **Active Issue / PR:** #7 / draft PR #8
@@ -23,17 +23,19 @@
 - [x] Added `project-loop.toml` with dry-run mode and repair disabled.
 - [x] Added Stage 0 selector, receipt validator, run wrapper, skill instructions, checker contract, fixtures, and pytest tests.
 - [x] Integrated proven project-loop checks into `init.sh`.
+- [x] Patched PR #8 review findings: output writes are restricted to the configured run root, Stage 0 receipt immutability is enforced, issue/PR identity collisions are handled, malformed candidate containers fail closed, and unresolved Git HEAD fails closed.
+- [x] Added targeted negative tests for tracked/protected output paths, traversal, symlink escape, Stage 0 receipt invariant mutations, issue/PR same-number selection, malformed candidate containers, and Git HEAD failure.
 
 ### What's In Progress
 
 - [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
-- [ ] Record final Stage 0 verification evidence in the PR and issue #7.
+- [ ] Post updated Stage 0 review-fix evidence in PR #8 and issue #7.
 - [ ] Stop for human/ChatGPT review before Stage 1.
 
 ### What's Next
 
-1. Push PR-number state update.
-2. Post evidence to issue #7.
+1. Push PR #8 review-fix commits.
+2. Post updated evidence to PR #8 and issue #7.
 3. Stop for review.
 
 ## Blockers / Risks
@@ -83,7 +85,7 @@
 - [x] `AGENTS.md` manually checked for consistency with `docs/project-loop.md`.
 - [x] Generic path examples contain no product-specific harness or loop names.
 - [x] `python3 -m py_compile scripts/project-loop/select_work.py scripts/project-loop/validate_receipt.py` — pass on DGX Spark.
-- [x] `python3 -m pytest tests/project-loop` — pass, 11 tests.
+- [x] `python3 -m pytest tests/project-loop` — pass, 33 tests.
 - [x] `bash -n scripts/project-loop/run_cycle.sh` — pass.
 - [x] `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` — pass.
 - [x] `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.

@@ -271,11 +271,11 @@
       ],
       "evidence": [
         {
-          "summary": "Stage 0 dry-run selector, receipt validation, fixture tests, and project-loop skill validate locally",
+          "summary": "Stage 0 dry-run selector, receipt validation, and requested negative tests validate locally",
           "command": "python3 -m pytest tests/project-loop",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
           "acceptance_criteria": []
         },
         {
@@ -283,7 +283,7 @@
           "command": "python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
           "acceptance_criteria": []
         },
         {
@@ -291,7 +291,7 @@
           "command": "bash -n scripts/project-loop/run_cycle.sh",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
           "acceptance_criteria": []
         },
         {
@@ -299,7 +299,7 @@
           "command": "python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
           "acceptance_criteria": []
         },
         {
@@ -307,7 +307,7 @@
           "command": "./init.sh",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
           "acceptance_criteria": []
         },
         {
@@ -315,7 +315,7 @@
           "command": "git diff --check",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
           "acceptance_criteria": []
         }
       ]
