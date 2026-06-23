@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: implement project-loop v1 Stage 0 dry-run selector from issue #7.
-- Current status: Stage 0 implementation is in draft PR #8; PR review hardening is pushed and updated evidence is posted.
+- Current status: Stage 0 implementation is in draft PR #8; run-root guard re-review fix is implemented and local verification passes.
 - Branch: `codex/7-project-loop-v1`.
 - Primary writer: Codex.
 - Codex implementation issue: #7.
@@ -23,6 +23,8 @@
 - [x] Opened draft PR #8 stacked on `chatgpt/5-project-loop-protocol`.
 - [x] Addressed PR #8 review findings for Stage 0 output safety, receipt immutability, issue/PR identity collisions, malformed candidate containers, and unresolved Git HEAD.
 - [x] Added requested negative tests for tracked/protected output paths, traversal, symlink escape, Stage 0 invariant mutations, issue/PR same-number selection, malformed candidate containers, and Git HEAD failure.
+- [x] Addressed PR #8 re-review finding by requiring in-repository `runtime.run_root` to be under ignored `.project-loop/`, with external run roots still allowed.
+- [x] Added regression coverage proving `run_root = "."` cannot create an untracked root-level receipt file.
 
 ## Verification Evidence
 
@@ -33,10 +35,10 @@
 | Portable naming | Review all proposed reusable paths | Pass | ChatGPT GitHub connector | Uses `project-*`; no product-specific reusable path |
 | Full startup | `./init.sh` | Pass | DGX Spark | Specification validation, traceability, harness validation 100/100, and project-loop checks pass |
 | Python compile | `python3 -m py_compile scripts/project-loop/select_work.py scripts/project-loop/validate_receipt.py` | Pass | DGX Spark | Stage 0 scripts compile |
-| Loop tests | `python3 -m pytest tests/project-loop` | Pass | DGX Spark | 33 tests |
+| Loop tests | `python3 -m pytest tests/project-loop` | Pass | DGX Spark | 35 tests |
 | Shell syntax | `bash -n scripts/project-loop/run_cycle.sh` | Pass | DGX Spark | Stage 0 wrapper only |
 | Receipt fixture | `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` | Pass | DGX Spark | Deterministic schema validation |
-| Skill validation | `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | Project-loop skill is valid |
+| Skill validation | `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | Project-loop skill is valid |
 | Diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
 
 ## Decisions Recorded
@@ -68,5 +70,6 @@
 
 ## Exact Next Action
 
-**ChatGPT:** re-review Stage 0 fixes in PR #8 for conformity with issue #5 and PR #6.
+**Codex:** push the run-root guard fix and post updated evidence to PR #8.
+**ChatGPT afterward:** re-review Stage 0 fixes in PR #8 for conformity with issue #5 and PR #6.
 **Human owner:** decide whether to authorize Stage 1 later.

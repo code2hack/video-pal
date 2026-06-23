@@ -271,11 +271,11 @@
       ],
       "evidence": [
         {
-          "summary": "Stage 0 dry-run selector, receipt validation, and requested negative tests validate locally",
+          "summary": "Stage 0 dry-run selector, receipt validation, run-root guard, and requested negative tests validate locally",
           "command": "python3 -m pytest tests/project-loop",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
+          "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
         },
         {
@@ -283,7 +283,7 @@
           "command": "python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
+          "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
         },
         {
@@ -291,15 +291,15 @@
           "command": "bash -n scripts/project-loop/run_cycle.sh",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
+          "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
         },
         {
           "summary": "Project-loop skill frontmatter validates",
-          "command": "python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop",
+          "command": "python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
+          "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
         },
         {
@@ -307,7 +307,7 @@
           "command": "./init.sh",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
+          "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
         },
         {
@@ -315,7 +315,7 @@
           "command": "git diff --check",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": "572cd14476194ff083a4810fc828c98547e7b827",
+          "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
         }
       ]

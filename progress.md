@@ -25,6 +25,8 @@
 - [x] Integrated proven project-loop checks into `init.sh`.
 - [x] Patched PR #8 review findings: output writes are restricted to the configured run root, Stage 0 receipt immutability is enforced, issue/PR identity collisions are handled, malformed candidate containers fail closed, and unresolved Git HEAD fails closed.
 - [x] Added targeted negative tests for tracked/protected output paths, traversal, symlink escape, Stage 0 receipt invariant mutations, issue/PR same-number selection, malformed candidate containers, and Git HEAD failure.
+- [x] Patched PR #8 re-review finding: in-repository `runtime.run_root` must be under ignored `.project-loop/`, while external run roots remain allowed.
+- [x] Added regression coverage proving a root-level untracked receipt cannot be created via `run_root = "."`.
 
 ### What's In Progress
 
@@ -34,9 +36,9 @@
 
 ### What's Next
 
-1. ChatGPT re-reviews PR #8 Stage 0 fixes.
-2. Human owner decides whether to authorize any later Stage 1 work.
-3. Keep Stage 2 repair disabled until separate approval.
+1. Post updated run-root guard evidence to PR #8.
+2. ChatGPT re-reviews PR #8 Stage 0 fixes.
+3. Keep Stage 1 and Stage 2 repair disabled until separate approval.
 
 ## Blockers / Risks
 
@@ -85,10 +87,10 @@
 - [x] `AGENTS.md` manually checked for consistency with `docs/project-loop.md`.
 - [x] Generic path examples contain no product-specific harness or loop names.
 - [x] `python3 -m py_compile scripts/project-loop/select_work.py scripts/project-loop/validate_receipt.py` — pass on DGX Spark.
-- [x] `python3 -m pytest tests/project-loop` — pass, 33 tests.
+- [x] `python3 -m pytest tests/project-loop` — pass, 35 tests.
 - [x] `bash -n scripts/project-loop/run_cycle.sh` — pass.
 - [x] `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` — pass.
-- [x] `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
+- [x] `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
 - [x] `./init.sh` on the stacked implementation branch — pass.
 - [x] `git diff --check` — pass.
 

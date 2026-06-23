@@ -36,7 +36,7 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 - Every non-no-op cycle publishes a durable receipt.
 - Human approval remains required for product/architecture decisions, deployment, destructive actions, governance exceptions, and merge.
 - Stage 0 project-loop dry-run selection code exists on `codex/7-project-loop-v1`.
-- PR #8 review hardening is committed for Stage 0 output safety, receipt immutability, issue/PR identity handling, malformed candidate containers, and unresolved Git HEAD.
+- PR #8 review hardening is committed for Stage 0 output safety, run-root confinement, receipt immutability, issue/PR identity handling, malformed candidate containers, and unresolved Git HEAD.
 - Stage 0 uses fixture or manually supplied JSON by default.
 - GitHub writes and receipt comments remain disabled by default.
 - Stage 1 read-only PR verification is not implemented.
@@ -53,8 +53,8 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 
 - Protocol and naming have been manually reviewed through the GitHub connector.
 - No DGX Spark verification has been claimed for PR #6.
-- Stage 0 focused checks passed on DGX Spark: Python compile, 33 project-loop pytest tests, shell syntax, receipt validation, skill validation, full startup, and diff check.
+- Stage 0 focused checks passed on DGX Spark: Python compile, 35 project-loop pytest tests, shell syntax, receipt validation, skill validation, full startup, and diff check.
 
 ## Next Step
 
-ChatGPT re-reviews PR #8 Stage 0 fixes. Stage 1 and repair require separate human approval.
+Codex pushes the run-root guard fix and posts updated evidence to PR #8, then ChatGPT re-reviews PR #8 Stage 0 fixes. Stage 1 and repair require separate human approval.
