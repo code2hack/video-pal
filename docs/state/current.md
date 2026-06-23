@@ -57,4 +57,4 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 
 ## Next Step
 
-Codex pushes the run-root guard fix and posts updated evidence to PR #8, then ChatGPT re-reviews PR #8 Stage 0 fixes. Stage 1 and repair require separate human approval.
+ChatGPT re-reviews PR #8 Stage 0 run-root guard fix. Stage 1 and repair require separate human approval.

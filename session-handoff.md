@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: implement project-loop v1 Stage 0 dry-run selector from issue #7.
-- Current status: Stage 0 implementation is in draft PR #8; run-root guard re-review fix is implemented and local verification passes.
+- Current status: Stage 0 implementation is in draft PR #8; run-root guard re-review fix is pushed and evidence is posted.
 - Branch: `codex/7-project-loop-v1`.
 - Primary writer: Codex.
 - Codex implementation issue: #7.
@@ -70,6 +70,5 @@
 
 ## Exact Next Action
 
-**Codex:** push the run-root guard fix and post updated evidence to PR #8.
-**ChatGPT afterward:** re-review Stage 0 fixes in PR #8 for conformity with issue #5 and PR #6.
+**ChatGPT:** re-review Stage 0 fixes in PR #8 for conformity with issue #5 and PR #6.
 **Human owner:** decide whether to authorize Stage 1 later.

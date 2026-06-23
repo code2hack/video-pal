@@ -36,9 +36,9 @@
 
 ### What's Next
 
-1. Post updated run-root guard evidence to PR #8.
-2. ChatGPT re-reviews PR #8 Stage 0 fixes.
-3. Keep Stage 1 and Stage 2 repair disabled until separate approval.
+1. ChatGPT re-reviews PR #8 Stage 0 run-root guard fix.
+2. Human owner decides whether to authorize any later Stage 1 work.
+3. Keep Stage 2 repair disabled until separate approval.
 
 ## Blockers / Risks
 
