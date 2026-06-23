@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import json
 import subprocess
 import sys
@@ -27,9 +28,12 @@ def utc_now() -> str:
 
 def git_head() -> str:
     try:
-        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    except (OSError, subprocess.CalledProcessError):
-        return "unknown"
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise RuntimeError("cannot resolve git HEAD") from exc
+    if not head:
+        raise RuntimeError("cannot resolve git HEAD")
+    return head
 
 
 def load_json(path: Path) -> Any:
@@ -93,19 +97,30 @@ def load_features(path: Path) -> dict[str, dict[str, Any]]:
 def candidate_items(data: Any) -> list[dict[str, Any]]:
     if isinstance(data, list):
         raw = data
-    elif isinstance(data, dict) and isinstance(data.get("candidates"), list):
+    elif isinstance(data, dict) and "candidates" in data:
+        if not isinstance(data["candidates"], list):
+            raise ValueError("candidates must be a list")
         raw = data["candidates"]
     elif isinstance(data, dict):
         raw = []
         for key, item_type in (("pull_requests", "pull_request"), ("issues", "issue")):
+            if key in data and not isinstance(data[key], list):
+                raise ValueError(f"{key} must be a list")
             for item in data.get(key, []):
-                if isinstance(item, dict):
-                    copy = dict(item)
-                    copy.setdefault("type", item_type)
-                    raw.append(copy)
+                if not isinstance(item, dict):
+                    raise ValueError(f"{key} entries must be objects")
+                copy = dict(item)
+                copy.setdefault("type", item_type)
+                raw.append(copy)
     else:
         raise ValueError("candidate file must be an object or list")
-    return [dict(item) for item in raw if isinstance(item, dict)]
+
+    candidates = []
+    for item in raw:
+        if not isinstance(item, dict):
+            raise ValueError("candidate entries must be objects")
+        candidates.append(dict(item))
+    return candidates
 
 
 def names(values: Any) -> set[str]:
@@ -222,6 +237,66 @@ def sort_key(candidate: dict[str, Any]) -> tuple[int, str, int, str]:
     )
 
 
+def candidate_identity(candidate: dict[str, Any]) -> tuple[str | None, int | None]:
+    item_type = candidate.get("type")
+    number = candidate.get("number")
+    return (
+        item_type if isinstance(item_type, str) else None,
+        number if isinstance(number, int) else None,
+    )
+
+
+def is_tracked_path(path: Path) -> bool:
+    try:
+        rel_path = path.relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return False
+
+    result = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", "--", rel_path],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise RuntimeError(f"cannot determine whether output path is tracked: {rel_path}")
+
+
+def is_protected_path(path: Path, patterns: list[str]) -> bool:
+    try:
+        rel_path = path.relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return False
+    return any(fnmatch.fnmatch(rel_path, pattern) for pattern in patterns)
+
+
+def safe_output_path(config: dict[str, Any], value: str) -> Path:
+    run_root_value = config["runtime"].get("run_root")
+    if not isinstance(run_root_value, str) or not run_root_value:
+        raise ConfigError("runtime.run_root must be a non-empty string")
+
+    run_root = resolve_path(run_root_value).resolve(strict=False)
+    output = resolve_path(value).resolve(strict=False)
+
+    try:
+        output.relative_to(run_root)
+    except ValueError as exc:
+        raise ValueError(f"output path must stay under runtime.run_root: {run_root}") from exc
+
+    if output == run_root or output.is_dir():
+        raise ValueError("output path must be a file below runtime.run_root")
+    protected_paths = config["protected"].get("paths", [])
+    if isinstance(protected_paths, list) and is_protected_path(output, [p for p in protected_paths if isinstance(p, str)]):
+        raise ValueError("output path must not target a protected path")
+    if is_tracked_path(output):
+        raise ValueError("output path must not target a tracked repository file")
+    return output
+
+
 def build_receipt(config: dict[str, Any], selected: dict[str, Any] | None, results: list[dict[str, Any]]) -> dict[str, Any]:
     now = utc_now()
     head = git_head()
@@ -300,13 +375,17 @@ def main(argv: list[str]) -> int:
 
     selected = sorted(eligible, key=sort_key)[0] if eligible else None
     if selected is not None:
-        selected_number = selected.get("number")
+        selected_id = candidate_identity(selected)
         for result in results:
-            if result["status"] == "eligible" and result["item"].get("number") != selected_number:
+            if result["status"] == "eligible" and candidate_identity(result["item"]) != selected_id:
                 result["status"] = "not-selected"
                 result["reasons"] = ["another eligible item sorted first"]
 
-    receipt = build_receipt(config, selected, results)
+    try:
+        receipt = build_receipt(config, selected, results)
+    except RuntimeError as exc:
+        print(f"project-loop selection failed closed: {exc}", file=sys.stderr)
+        return 2
     errors = validate_receipt(receipt)
     if errors:
         print("project-loop selection produced invalid receipt:", file=sys.stderr)
@@ -316,7 +395,11 @@ def main(argv: list[str]) -> int:
 
     payload = json.dumps(receipt, indent=2, sort_keys=True) + "\n"
     if args.output:
-        output = Path(args.output)
+        try:
+            output = safe_output_path(config, args.output)
+        except (ConfigError, ValueError, RuntimeError) as exc:
+            print(f"project-loop selection failed closed: {exc}", file=sys.stderr)
+            return 2
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(payload, encoding="utf-8")
     else:

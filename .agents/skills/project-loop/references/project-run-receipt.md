@@ -22,6 +22,15 @@ Required JSON fields:
 - `next_actor`: who should act next
 - `known_risks`: list of remaining risks
 
-Stage 0 receipts use `attempts: 0`, `changed_files: []`, and either `stop_reason: "stage0-selected"` or `stop_reason: "no-eligible-work"`.
+Stage 0 receipts use either `stop_reason: "stage0-selected"` or `stop_reason: "no-eligible-work"` and must be immutable dry-run records:
+
+- `attempts: 0`
+- `commands: []`
+- `changed_files: []`
+- `checker_result: "not-run"`
+- `ending_commit` equals `starting_commit`
+- `claim.starting_commit` equals `starting_commit`
+- no-op receipts have `work_item: null` and `claim.branch: null`
+- selected receipts include `work_item.branch`, and `claim.branch` equals `work_item.branch`
 
 Repair receipts must state the stop reason explicitly, such as `repair-disabled`, `unchanged-validation-delta`, `attempt-limit-reached`, or `unexpected-changed-file`.

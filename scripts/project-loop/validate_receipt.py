@@ -116,6 +116,8 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
                 errors.append("work_item.number must be integer")
             if not isinstance(work_item.get("title"), str):
                 errors.append("work_item.title must be string")
+            if "branch" in work_item and work_item.get("branch") is not None and not isinstance(work_item.get("branch"), str):
+                errors.append("work_item.branch must be string or null")
 
     for index, command in enumerate(receipt.get("commands", [])):
         if not isinstance(command, dict):
@@ -141,6 +143,30 @@ def validate_receipt(receipt: dict[str, Any]) -> list[str]:
         errors.append("no-eligible-work receipts must have work_item null")
     if stop_reason == "stage0-selected" and receipt.get("work_item") is None:
         errors.append("stage0-selected receipts require a work_item")
+    if stop_reason in {"stage0-selected", "no-eligible-work"}:
+        if receipt.get("attempts") != 0:
+            errors.append(f"{stop_reason} receipts must have attempts 0")
+        if receipt.get("commands") != []:
+            errors.append(f"{stop_reason} receipts must have commands []")
+        if receipt.get("changed_files") != []:
+            errors.append(f"{stop_reason} receipts must have changed_files []")
+        if receipt.get("checker_result") != "not-run":
+            errors.append(f'{stop_reason} receipts must have checker_result "not-run"')
+        if receipt.get("ending_commit") != receipt.get("starting_commit"):
+            errors.append(f"{stop_reason} receipts must keep ending_commit equal to starting_commit")
+        if isinstance(claim, dict):
+            if claim.get("starting_commit") != receipt.get("starting_commit"):
+                errors.append(f"{stop_reason} receipts must keep claim.starting_commit equal to starting_commit")
+            if receipt.get("starting_commit") == "unknown":
+                errors.append(f"{stop_reason} receipts require a resolved starting_commit")
+            if stop_reason == "no-eligible-work" and claim.get("branch") is not None:
+                errors.append("no-eligible-work receipts must have claim.branch null")
+            if stop_reason == "stage0-selected" and isinstance(work_item, dict):
+                work_branch = work_item.get("branch")
+                if not isinstance(work_branch, str) or not work_branch:
+                    errors.append("stage0-selected receipts require work_item.branch")
+                elif claim.get("branch") != work_branch:
+                    errors.append("stage0-selected receipts must keep claim.branch equal to work_item.branch")
     if stop_reason in {"verifier-failed", "unchanged-validation-delta", "attempt-limit-reached", "unexpected-changed-file"}:
         if not receipt.get("validation_delta"):
             errors.append(f"{stop_reason} receipts require validation_delta")
