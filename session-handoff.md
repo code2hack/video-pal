@@ -53,6 +53,6 @@
 
 ## Exact Next Action
 
-**Codex:** validate PR #4 on DGX Spark and post evidence.  
-**ChatGPT afterward:** review the evidence and reconcile any changes.  
+**Codex:** validate PR #4 on DGX Spark and post evidence.
+**ChatGPT afterward:** review the evidence and reconcile any changes.
 **Human owner:** approve/revise governance and authorize merge.

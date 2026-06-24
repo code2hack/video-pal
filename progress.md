@@ -2,10 +2,10 @@
 
 ## Current State
 
-**Last Updated:** 2026-06-22 SGT  
-**Session ID:** specification-workflow  
-**Active Feature:** feat-006 - Establish Specification-Driven Workflow  
-**Active Issue / PR:** #3 / draft PR #4  
+**Last Updated:** 2026-06-22 SGT
+**Session ID:** specification-workflow
+**Active Feature:** feat-006 - Establish Specification-Driven Workflow
+**Active Issue / PR:** #3 / draft PR #4
 **Active Branch:** `chatgpt/3-specification-workflow`
 
 ## Status
