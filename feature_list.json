@@ -355,7 +355,7 @@
       ],
       "status": "in-progress",
       "branch": "codex/10-authorization-relay",
-      "pull_request": null,
+      "pull_request": 11,
       "blockers": [
         "Draft PR review and merge authorization pending",
         "Governance stack reconciliation for PRs #2, #4, #6, and #8 remains pending"
@@ -366,7 +366,7 @@
           "command": "./init.sh",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "7a0f89b9ce2230028ceeb6e59c32c46fe06123fe",
           "acceptance_criteria": []
         },
         {
@@ -374,7 +374,7 @@
           "command": "git diff --check",
           "result": "pass",
           "environment": "DGX Spark",
-          "commit": null,
+          "commit": "7a0f89b9ce2230028ceeb6e59c32c46fe06123fe",
           "acceptance_criteria": []
         }
       ]
