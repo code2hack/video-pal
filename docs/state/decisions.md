@@ -136,7 +136,7 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-PR #2 and PR #4 have merged. PR #6 has been rebased onto updated `main` and still requires Codex DGX verification, ChatGPT review, and explicit human merge authorization. PR #8 and PR #11 remain downstream and require retargeting or rebasing after prerequisite governance PRs settle.
+PR #2 and PR #4 have merged. PR #6 has been rebased and retargeted onto updated `main`, Codex DGX verification is recorded, and ChatGPT requested state-file cleanup only before preparing the human merge authorization packet. PR #6 still requires explicit human merge authorization. PR #8 and PR #11 remain downstream and require retargeting or rebasing after prerequisite governance PRs settle.
 
 ### Project-loop protocol approval
 

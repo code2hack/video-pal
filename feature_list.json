@@ -187,8 +187,7 @@
       "branch": "chatgpt/5-project-loop-protocol",
       "pull_request": 6,
       "blockers": [
-        "Human review and merge authorization",
-        "ChatGPT review after Codex rebase and DGX verification",
+        "Human merge authorization",
         "DGX Spark implementation belongs to separate issue #7"
       ],
       "evidence": [

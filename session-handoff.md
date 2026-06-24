@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: define a reusable, product-agnostic project-loop protocol and portable naming contract from issue #5.
-- Current status: draft PR #6 is rebased onto updated `main` after PR #4 merged; DGX Spark verification passed.
+- Current status: draft PR #6 is rebased onto updated `main` after PR #4 merged, DGX Spark verification passed, and Codex has applied the requested state-file cleanup.
 - Branch: `chatgpt/5-project-loop-protocol`.
 - Primary writer: ChatGPT.
 - Codex implementation issue: #7.
@@ -21,6 +21,9 @@
 - [x] Rebased `chatgpt/5-project-loop-protocol` onto updated `main`.
 - [x] Reconciled `AGENTS.md` by preserving branch/identity governance, specification workflow governance, and project-loop governance.
 - [x] Ran DGX Spark verification on the rebased PR #6 branch.
+- [x] Pushed the rebased PR #6 branch, retargeted PR #6 to `main`, and posted DGX verification evidence.
+- [x] ChatGPT reviewed the rebased PR #6 and requested state-file cleanup only.
+- [x] Updated state files so completed push, retarget, and evidence-posting work is no longer listed as pending.
 
 ## Verification Evidence
 
@@ -47,7 +50,7 @@
 
 ## Blockers / Risks
 
-- PR #6 is still draft and requires ChatGPT review after Codex verification.
+- PR #6 is still draft and requires ChatGPT cleanup re-review before merge authorization.
 - Human merge authorization is still required.
 - PR #8 and PR #11 are downstream and require retargeting or rebasing after PR #6.
 - Stage 1 read-only PR verification is not authorized.
@@ -63,6 +66,5 @@
 
 ## Exact Next Action
 
-**Codex:** push the rebased branch, retarget PR #6 to `main`, and post evidence.
-**ChatGPT afterward:** review the rebased PR #6 for conformity with issue #5.
+**ChatGPT:** re-review only the state cleanup and prepare the merge authorization packet if satisfied.
 **Human owner:** approve/revise the protocol and explicitly authorize merge.

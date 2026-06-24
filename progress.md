@@ -21,24 +21,24 @@
 - [x] Opened Codex-owned issue #7 for DGX Spark implementation using generic `project-*` paths.
 - [x] Rebased `chatgpt/5-project-loop-protocol` onto updated `main` after PR #4 merged.
 - [x] Reconciled the `AGENTS.md` role-boundary overlap by preserving branch/identity rules, specification workflow rules, and project-loop protocol rules.
+- [x] Pushed the rebased PR #6 branch, retargeted PR #6 to `main`, and posted DGX verification evidence.
+- [x] ChatGPT reviewed PR #6 at the rebased head and requested state-file cleanup only.
+- [x] Updated durable state files to remove stale push, retarget, and evidence-posting next steps.
 
 ### What's In Progress
 
-- [x] Run DGX Spark verification for the rebased PR #6 branch.
-- [ ] Push rebased PR #6, retarget it to `main`, and post evidence for ChatGPT review.
+- [ ] ChatGPT cleanup re-review of the state-file-only update.
 
 ### What's Next
 
-1. Push the rebased PR #6 branch with `--force-with-lease`.
-2. Retarget PR #6 to `main`.
-3. Post verification evidence in PR #6.
-4. ChatGPT reviews the rebased project-loop protocol.
-5. Human owner explicitly authorizes merge if satisfied.
-6. After PR #6 merges, retarget or rebase downstream PR #8 and then PR #11.
+1. ChatGPT re-reviews only the PR #6 state cleanup.
+2. If satisfied, ChatGPT prepares the human merge authorization packet.
+3. Human owner explicitly authorizes merge if satisfied.
+4. After PR #6 merges, retarget or rebase downstream PR #8 and then PR #11.
 
 ## Blockers / Risks
 
-- [ ] PR #6 is still draft and requires ChatGPT review after Codex rebase/verification.
+- [ ] PR #6 is still draft and requires cleanup re-review before merge authorization.
 - [ ] Human merge authorization is still required.
 - [ ] PR #8 and PR #11 remain downstream and require retargeting or rebasing after PR #6.
 - [ ] Stage 1 read-only PR verification is not authorized.
