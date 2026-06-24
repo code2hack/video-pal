@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: define a reusable, product-agnostic project-loop protocol and portable naming contract from issue #5.
-- Current status: draft PR #6 is rebased onto updated `main` after PR #4 merged; DGX Spark verification is in progress.
+- Current status: draft PR #6 is rebased onto updated `main` after PR #4 merged; DGX Spark verification passed.
 - Branch: `chatgpt/5-project-loop-protocol`.
 - Primary writer: ChatGPT.
 - Codex implementation issue: #7.
@@ -20,6 +20,7 @@
 - [x] Rebasing prerequisite complete: PR #2 and PR #4 are merged into `main`.
 - [x] Rebased `chatgpt/5-project-loop-protocol` onto updated `main`.
 - [x] Reconciled `AGENTS.md` by preserving branch/identity governance, specification workflow governance, and project-loop governance.
+- [x] Ran DGX Spark verification on the rebased PR #6 branch.
 
 ## Verification Evidence
 
@@ -28,9 +29,10 @@
 | Protocol coverage | Manual review of `docs/project-loop.md` against issue #5 | Pass | ChatGPT GitHub connector | All requested design areas represented |
 | Harness consistency | Manual comparison of `AGENTS.md` and `docs/project-loop.md` | Pass | ChatGPT GitHub connector | Detailed design remains in the doc; invariants are in AGENTS |
 | Portable naming | Review all proposed reusable paths | Pass | ChatGPT GitHub connector | Uses `project-*`; no product-specific reusable path |
-| Full startup | `./init.sh` | Pending | DGX Spark | Run after rebase state is complete |
-| Diff check | `git diff --check` | Pending | DGX Spark | Run after rebase state is complete |
-| Feature JSON | `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json` | Pending | DGX Spark | Run after rebase state is complete |
+| Full startup | `./init.sh` | Pass | DGX Spark | Specification validation passed; traceability passed for 8 features; structural harness validation 100/100 |
+| Diff check | `git diff --check origin/main...HEAD && git diff --check` | Pass | DGX Spark | No whitespace errors |
+| Feature JSON | `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json` | Pass | DGX Spark | Feature state parses as JSON |
+| Python syntax | `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` | Pass | DGX Spark | No syntax errors |
 | Loop implementation tests | Commands in issue #7 | Not started | DGX Spark | Separate Codex-owned scope |
 
 ## Decisions Recorded
@@ -61,6 +63,6 @@
 
 ## Exact Next Action
 
-**Codex:** finish DGX Spark verification for PR #6, push the rebased branch, retarget PR #6 to `main`, and post evidence.
+**Codex:** push the rebased branch, retarget PR #6 to `main`, and post evidence.
 **ChatGPT afterward:** review the rebased PR #6 for conformity with issue #5.
 **Human owner:** approve/revise the protocol and explicitly authorize merge.

@@ -41,15 +41,15 @@ Current active feature: `feat-007` — Define Reusable Project Loop Protocol.
 
 - ChatGPT is the primary writer for issue #5 and PR #6.
 - Codex owns issue #7 and should not expand implementation scope until the relevant stage is explicitly authorized.
-- PR #6 has been rebased onto `main` after PR #4 merged and needs Codex DGX verification plus ChatGPT review.
+- PR #6 has been rebased onto `main` after PR #4 merged and has Codex DGX verification evidence.
 - PR #8 remains downstream and must be retargeted or rebased after PR #6 settles.
 
 ## Verification State
 
 - Protocol and naming were manually reviewed through the GitHub connector.
-- PR #6 DGX Spark verification is in progress after rebase onto `main`.
+- PR #6 DGX Spark verification passed after rebase onto `main`: `./init.sh`, `git diff --check origin/main...HEAD && git diff --check`, `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json`, and `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py`.
 - Issue #7 defines the required future executable checks and tests.
 
 ## Next Step
 
-Codex completes PR #6 DGX verification, records evidence, and updates PR #6 for ChatGPT review. Human merge authorization remains required.
+Codex pushes the rebased PR #6 branch, retargets PR #6 to `main`, and posts evidence for ChatGPT review. Human merge authorization remains required.

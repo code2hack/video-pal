@@ -24,16 +24,17 @@
 
 ### What's In Progress
 
-- [ ] Run DGX Spark verification for the rebased PR #6 branch.
-- [ ] Post PR #6 evidence for ChatGPT review.
+- [x] Run DGX Spark verification for the rebased PR #6 branch.
+- [ ] Push rebased PR #6, retarget it to `main`, and post evidence for ChatGPT review.
 
 ### What's Next
 
-1. Run `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json`.
-2. Record verification evidence in durable state and PR #6.
-3. ChatGPT reviews the rebased project-loop protocol.
-4. Human owner explicitly authorizes merge if satisfied.
-5. After PR #6 merges, retarget or rebase downstream PR #8 and then PR #11.
+1. Push the rebased PR #6 branch with `--force-with-lease`.
+2. Retarget PR #6 to `main`.
+3. Post verification evidence in PR #6.
+4. ChatGPT reviews the rebased project-loop protocol.
+5. Human owner explicitly authorizes merge if satisfied.
+6. After PR #6 merges, retarget or rebase downstream PR #8 and then PR #11.
 
 ## Blockers / Risks
 
@@ -70,9 +71,10 @@
 - [x] `docs/project-loop.md` manually reviewed against issue #5 acceptance criteria through the GitHub connector.
 - [x] `AGENTS.md` manually checked for consistency with `docs/project-loop.md`.
 - [x] Generic path examples contain no product-specific harness or loop names.
-- [ ] `./init.sh` on the rebased PR #6 branch.
-- [ ] `git diff --check`.
-- [ ] `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json`.
+- [x] `./init.sh` on the rebased PR #6 branch — pass on DGX Spark; specification validation passed, traceability passed for 8 features, structural harness validation 100/100, no application manifest as expected.
+- [x] `git diff --check origin/main...HEAD && git diff --check` — pass on DGX Spark.
+- [x] `python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json` — pass on DGX Spark.
+- [x] `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` — pass on DGX Spark.
 
 ## Notes for Next Session
 
