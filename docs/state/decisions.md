@@ -1,6 +1,6 @@
 # Decisions
 
-Last updated: 2026-06-22 SGT
+Last updated: 2026-06-24
 
 ## Accepted
 
@@ -20,12 +20,12 @@ Future collaboration between the human owner, ChatGPT, and Codex must persist th
 ### Role boundaries
 
 - Human owner owns product direction, acceptance, architecture approval, secrets, deployment, and merge authorization.
-- ChatGPT plans, drafts specifications and acceptance criteria, reviews, and stewards GitHub state.
-- Codex implements locally, writes executable tests, verifies on DGX Spark, commits, and pushes.
+- ChatGPT plans, drafts specifications and acceptance criteria, reviews, stewards GitHub state, and curates harness/loop protocol.
+- Codex implements locally, writes executable tests, verifies on DGX Spark, implements local automation, commits, and pushes.
 
 ### Evidence over claims
 
-Agents must record exact verification evidence before claiming work is done. Evidence belongs in tracked state files, commits, PRs, or issues.
+Agents must record exact verification evidence before claiming work is done. Evidence belongs in tracked state files, commits, PRs, issues, or schema-valid project-loop receipts.
 
 ### Adopt a layered specification system
 
@@ -35,7 +35,7 @@ Authority is separated across product scope, feature behavior, quality constrain
 
 ### Human approval gates product behavior
 
-A `draft` specification is discussion material only. Only the human owner may authorize `draft → approved`, and application implementation must not start from a draft product spec.
+A `draft` specification is discussion material only. Only the human owner may authorize `draft -> approved`, and application implementation must not start from a draft product spec.
 
 ### Stable traceability identifiers
 
@@ -56,6 +56,74 @@ ChatGPT normally curates planning fields in `feature_list.json`. The working act
 
 Tests and generated test skeletons map to acceptance criteria. They do not change approved behavior. Generated tests become evidence only after review and execution in the stated environment.
 
+### Use portable project-loop naming
+
+Reusable harness and automation artifacts must use generic `project-*` names rather than a product or repository name.
+
+Canonical examples include:
+
+```text
+project-loop.toml
+.project-loop/
+.agents/skills/project-loop/
+.codex/agents/project-verifier.toml
+scripts/project-loop/
+docs/project-loop.md
+```
+
+Repository-specific values belong in configuration, specifications, issues, PRs, and state files. Product files may retain product-specific names when they represent product truth rather than reusable framework machinery.
+
+### Separate the harness from the loop
+
+The harness defines the rules, context, verification, and durable state for one agent run. The project loop sits above it and repeatedly discovers one eligible work item, invokes agents inside isolated worktrees, checks results, records evidence, and chooses the next allowed transition.
+
+The loop must consume the harness rather than duplicate or bypass it.
+
+### Use a bounded project-loop state machine
+
+One cycle processes at most one item and follows:
+
+```text
+DISCOVER -> CLAIM -> ISOLATE -> RECONCILE -> BASELINE
+-> VERIFY -> REPAIR (bounded) -> INDEPENDENT REVIEW
+-> RECEIPT -> HANDOFF / STOP
+```
+
+A later schedule may start another bounded cycle. A cycle must not retry indefinitely.
+
+### Isolate modifying automation
+
+Every modifying loop run uses a dedicated Git worktree and an actor-prefixed non-protected branch. Isolation prevents checkout collisions but does not replace branch ownership, conflict detection, or review.
+
+### Separate maker and checker
+
+The maker may edit within the approved scope. A different read-only checker validates governance, specifications, acceptance coverage, changed-file scope, evidence, unsupported claims, and remaining risks.
+
+The maker does not finally accept its own work, and the checker does not edit or merge.
+
+### Bound repair and fail closed
+
+The default cycle limit is one work item, one edited branch, and at most three repair attempts. Repair must default off until dry-run selection and read-only verification are proven.
+
+The loop stops on human decisions, unchanged or growing validation delta, conflicts, unexpected files, exhausted budgets, insufficient permissions, ambiguous authority, or any need to change approved behavior merely to pass a test.
+
+### Use durable project-loop receipts
+
+Every non-no-op cycle publishes a structured issue/PR receipt containing identity, work item, claim, commits, attempts, exact command results, changed files, validation delta, checker result, stop reason, next actor, and known risks.
+
+Raw local logs may remain under ignored `.project-loop/`, but essential cross-session state must not exist only there.
+
+### Preserve human gates
+
+The project loop must stop before product acceptance, material specification changes, architecture approval, secret handling, deployment, destructive operations, governance exceptions, or final merge unless the human owner explicitly authorizes the exact action.
+
+### Roll out automation in stages
+
+1. dry-run selector
+2. read-only pull-request verification
+3. bounded deterministic repair
+4. approved feature implementation only after earlier stages are stable and the human explicitly expands scope
+
 ## Pending
 
 ### Video Pal product scope
@@ -68,8 +136,24 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-PR #2 merged first. PR #4 now carries the `AGENTS.md` reconciliation that preserves PR #2 branch/identity governance and PR #4 specification workflow governance. PR #4 still requires ChatGPT review and explicit human merge authorization.
+PR #2 and PR #4 have merged. PR #6 has been rebased and retargeted onto updated `main`, Codex DGX verification is recorded, and ChatGPT requested state-file cleanup only before preparing the human merge authorization packet. PR #6 still requires explicit human merge authorization. PR #8 and PR #11 remain downstream and require retargeting or rebasing after prerequisite governance PRs settle.
+
+### Project-loop protocol approval
+
+Issue #5 and draft PR #6 require human approval before their rules become merged project truth.
+
+### Project-loop local implementation
+
+Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using the project-loop protocol branch as the stacked base unless prerequisites merge first.
+
+Stage 0 may implement dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR. GitHub writes remain disabled by default.
+
+Stage 1 read-only PR verification and Stage 2 repair require separate human approval.
+
+### Repair-mode authorization
+
+Even after Stage 0 and Stage 1 exist, repair mode remains disabled by default until the human owner reviews read-only evidence and separately approves expansion.
 
 ### Application verification commands
 
-`init.sh` validates specifications, traceability, and harness structure. Application-specific commands remain pending until a product stack is approved and scaffolded.
+`init.sh` validates specifications, traceability, and harness structure. Application-specific and project-loop executable commands remain pending until their implementations are proven locally.

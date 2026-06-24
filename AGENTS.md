@@ -11,10 +11,11 @@ Before writing code:
 3. **Read this file** completely
 4. **Read current state**: `feature_list.json`, `progress.md`, `session-handoff.md`, `docs/state/current.md`, and `docs/state/decisions.md`
 5. **Read specification authority**: `spec/README.md`, `spec/product.md`, `spec/quality.md`, and every spec referenced by the active feature
-6. **Review recent commits** with `git log --oneline -20`
-7. **Review the active issue and PR**, including unresolved comments and verification requests
-8. **Run `./init.sh`** to verify the environment and specification traceability
-9. **Reconcile contradictions** between tracked state files before implementation
+6. **Read loop authority when automation is involved**: `docs/project-loop.md` and the active loop issue or PR
+7. **Review recent commits** with `git log --oneline -20`
+8. **Review the active issue and PR**, including unresolved comments and verification requests
+9. **Run `./init.sh`** to verify the environment and specification traceability
+10. **Reconcile contradictions** between tracked state files before implementation
 
 If baseline verification is failing, repair that first before adding new scope.
 
@@ -36,10 +37,10 @@ If a decision exists only in chat, it is provisional. Record binding decisions i
 ### Role Boundaries
 
 - **Human owner**: product direction, final authority, scope approval, architecture approval, secrets, deployment decisions, and merge authorization
-- **ChatGPT**: planning, specification drafting, acceptance criteria, review, architecture discussion, requirements clarification, consistency checks, harness maintenance, and GitHub-facing stewardship
-- **Codex**: local implementation on DGX Spark, executable tests, commands, local verification, refactors, commits, and pushes
+- **ChatGPT**: planning, specification drafting, acceptance criteria, review, architecture discussion, requirements clarification, consistency checks, harness and loop protocol maintenance, and GitHub-facing stewardship
+- **Codex**: local implementation, executable tests, commands, DGX Spark verification, project-loop implementation, refactors, commits, and pushes
 
-Neither AI agent owns product direction. If agents disagree, check this file, approved specifications, feature definitions, decision docs, and existing code, then present tradeoffs for the human owner to decide.
+Neither AI agent owns product direction. If agents disagree, check this file, approved specifications, feature definitions, decision docs, existing code, and the active loop receipt, then present tradeoffs for the human owner to decide.
 
 ### File Edit Ownership
 
@@ -92,23 +93,24 @@ This attribution is declarative rather than cryptographic. If stronger identity 
 - `spec/product.md` - product scope and non-goals
 - `spec/quality.md` - cross-cutting quality requirements
 - `spec/features/*.md` - feature behavior and acceptance criteria
+- `docs/project-loop.md` - reusable project-loop architecture and safety contract
 - `feature_list.json` - derived feature state, dependencies, traceability, blockers, and evidence
 - `progress.md` - rolling session log
 - `session-handoff.md` - restart packet for the next session
 - `docs/state/current.md` - concise snapshot of current project status
-- `docs/state/decisions.md` - durable product, process, and architecture decisions
-- Issues / PRs - discussion, review, evidence, and work requests
+- `docs/state/decisions.md` - durable product, process, architecture, and automation decisions
+- Issues / PRs - discussion, review, evidence, work requests, and project-loop receipts
 - Commit messages - status messages for changed repo state
 
 Issues and PRs can propose decisions, but final decisions become binding only after being copied into the appropriate tracked authority file.
 
 ### Freshness Rule
 
-At session start, pull the latest changes and compare the active specification, `feature_list.json`, `progress.md`, `session-handoff.md`, and `docs/state/current.md`. If they contradict each other, stop implementation and reconcile state first.
+At session start, pull the latest changes and compare the active specification, `feature_list.json`, `progress.md`, `session-handoff.md`, `docs/state/current.md`, and any active project-loop claim or receipt. If they contradict each other, stop implementation and reconcile state first.
 
 ### Evidence Rule
 
-Do not claim `done`, `works`, `fixed`, `tested`, or `verified` without evidence. Evidence must include the exact command or manual check, result, environment, known failures, and relevant commit when available. Write evidence to `feature_list.json`, `progress.md`, `session-handoff.md`, or a PR before claiming completion.
+Do not claim `done`, `works`, `fixed`, `tested`, or `verified` without evidence. Evidence must include the exact command or manual check, result, environment, known failures, and relevant commit when available. Write evidence to `feature_list.json`, `progress.md`, `session-handoff.md`, a PR, or a schema-valid project-loop receipt before claiming completion.
 
 ### No Hidden Memory
 
@@ -147,6 +149,28 @@ Avoid relying on "as discussed" unless the discussion is linked in an issue/PR o
 
 A change to approved behavior requires a focused PR that lists affected requirements, acceptance criteria, feature entries, tests, migration needs, backward compatibility, and the human decision required.
 
+## Reusable Project Loop Protocol
+
+The harness defines how one agent run works. The project loop is the controller above it: it discovers one eligible item, runs agents inside the harness, verifies the result, publishes durable state, and chooses the next allowed transition. Detailed design lives in `docs/project-loop.md`.
+
+Reusable loop artifacts use generic `project-*` names, including `project-loop.toml`, `.project-loop/`, `.agents/skills/project-loop/`, `.codex/agents/project-verifier.toml`, `scripts/project-loop/`, and `docs/project-loop.md`. Repository-specific values belong in configuration and state, not framework paths.
+
+Loop v1 supports bounded pull-request verification and deterministic repair. Each cycle processes at most one work item in an isolated worktree and follows:
+
+```text
+DISCOVER → CLAIM → ISOLATE → RECONCILE → BASELINE
+→ VERIFY → REPAIR (bounded) → INDEPENDENT REVIEW
+→ RECEIPT → HANDOFF / STOP
+```
+
+The maker and checker must be separate; the checker is read-only. Default limits are one work item, one edited branch, and at most three repair attempts. Stop when checks pass, a human decision is needed, the validation delta stops shrinking, scope grows, budgets expire, conflicts appear, permissions are insufficient, or approved behavior would need to change merely to pass a test.
+
+Every non-no-op cycle posts a durable receipt to the issue or PR with run identity, actor/runtime, work item, starting and ending commits, attempts, exact command results, changed files, remaining validation delta, checker result, stop reason, next actor, and known risks. Raw logs may remain under ignored `.project-loop/`, but essential state must be published outside the conversation.
+
+The loop never approves product behavior, merges, deploys, handles secrets, performs destructive operations, or bypasses human-owned decisions unless the human explicitly authorizes the exact action.
+
+Roll out in stages: dry-run selection, read-only verification, bounded deterministic repair, then approved feature implementation only after earlier stages are stable and the human expands scope.
+
 ### Commit Message Standard
 
 Use commit messages as concise status packets:
@@ -174,11 +198,14 @@ Avoid vague messages like `update`, `fix stuff`, or `wip`.
 ## Working Rules
 
 - **One feature at a time**: Work on exactly one active feature from `feature_list.json`
+- **One loop item at a time**: A loop cycle may claim at most one issue or PR
 - **Eligibility required**: Do not implement product behavior unless its referenced spec is approved
 - **Verification required**: Do not claim done without running the required commands and acceptance checks
-- **Update artifacts**: Before ending a session, update the affected spec or decision file, `feature_list.json`, `progress.md`, `session-handoff.md`, and relevant `docs/state/*` files
+- **Independent checking required**: Unattended changes require a separate read-only checker
+- **No autonomous merge**: Automation stops at the human merge gate
+- **Update artifacts**: Before ending a session, update the affected spec or decision file, `feature_list.json`, `progress.md`, `session-handoff.md`, relevant `docs/state/*` files, and the active issue or PR receipt
 - **Stay in scope**: Do not modify files unrelated to the active feature or issue
-- **Leave clean state**: The next session must be able to run `./init.sh` immediately
+- **Leave clean state**: The next session or loop cycle must be able to run `./init.sh` immediately
 
 ## Required Artifacts
 
@@ -187,6 +214,7 @@ Avoid vague messages like `update`, `fix stuff`, or `wip`.
 - `spec/product.md` — product scope authority
 - `spec/quality.md` — quality authority
 - `spec/features/*.md` — feature behavior authority
+- `docs/project-loop.md` — reusable project-loop authority
 - `feature_list.json` — derived work and evidence tracker
 - `progress.md` — session continuity log
 - `init.sh` — standard startup and verification path
@@ -202,9 +230,11 @@ A feature is done only when ALL applicable conditions are true:
 - [ ] Referenced specifications and IDs are valid
 - [ ] Required tests, lint, type checks, and manual checks actually ran
 - [ ] Every required acceptance criterion has passing evidence
-- [ ] Evidence is recorded in `feature_list.json`, `progress.md`, `session-handoff.md`, or the PR
+- [ ] Evidence is recorded in `feature_list.json`, `progress.md`, `session-handoff.md`, the PR, or a schema-valid project-loop receipt
 - [ ] Relevant state and decision docs are updated
 - [ ] Repository remains restartable from the standard startup path
+
+A loop cycle is complete only when it produces a successful no-op or publishes a durable receipt with its result, remaining delta, stop reason, and next actor.
 
 ## End of Session
 
@@ -215,9 +245,10 @@ Before ending a session:
 3. Update `progress.md` with current state
 4. Update `session-handoff.md`
 5. Update `docs/state/current.md` and `docs/state/decisions.md` when facts or decisions changed
-6. Record unresolved risks, blockers, and specification questions
-7. Commit with a descriptive status message once work is in a safe state
-8. Leave the repo clean enough for the next session to run `git pull --ff-only` and `./init.sh` immediately
+6. Update the active issue or PR with the loop receipt when automation ran
+7. Record unresolved risks, blockers, and specification questions
+8. Commit with a descriptive status message once work is in a safe state
+9. Leave the repo clean enough for the next session or cycle to run `git pull --ff-only` and `./init.sh` immediately
 
 ## Verification Commands
 
@@ -233,7 +264,7 @@ python3 scripts/validate_specs.py
 python3 scripts/check_traceability.py
 ```
 
-Application verification commands must be added to `init.sh` after the application stack is approved and scaffolded.
+Project-loop executable checks must be added only after the Codex-owned implementation issue defines and verifies them. Application verification commands must be added to `init.sh` after the application stack is approved and scaffolded.
 
 ## Escalation
 
@@ -241,6 +272,7 @@ If you encounter:
 - **Product decisions**: Read draft specs and open questions, then ask the human owner
 - **Architecture decisions**: Consult architecture and decision docs, otherwise ask the human owner
 - **Unclear requirements**: Comment on the relevant spec issue or PR; do not guess and implement
-- **Repeated test failures**: Update evidence and progress, then flag for human review
-- **Scope ambiguity**: Re-read the referenced spec and `feature_list.json`
+- **Loop eligibility ambiguity**: Do not claim the item; publish a no-op or blocked receipt
+- **Repeated test or repair failures**: Stop at the configured budget, record the validation delta, and flag for human review
+- **Scope ambiguity**: Re-read the referenced spec, `feature_list.json`, and `docs/project-loop.md`
 - **Contradictory state**: Stop implementation and reconcile tracked authority files first

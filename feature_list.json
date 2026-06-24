@@ -108,13 +108,10 @@
       "dependencies": [
         "feat-002"
       ],
-      "status": "blocked",
+      "status": "done",
       "branch": "chatgpt/3-specification-workflow",
       "pull_request": 4,
-      "blockers": [
-        "Human review and merge authorization",
-        "ChatGPT review after Codex DGX verification and PR #2 reconciliation"
-      ],
+      "blockers": [],
       "evidence": [
         {
           "summary": "Specification structure and lifecycle checks passed before publication",
@@ -173,6 +170,106 @@
           "acceptance_criteria": []
         }
       ]
+    },
+    {
+      "id": "feat-007",
+      "kind": "governance",
+      "name": "Define Reusable Project Loop Protocol",
+      "description": "Record a portable project-loop controller, generic naming, bounded state machine, isolation, maker/checker separation, durable receipts, and human safety gates",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-006"
+      ],
+      "status": "blocked",
+      "branch": "chatgpt/5-project-loop-protocol",
+      "pull_request": 6,
+      "blockers": [
+        "Human merge authorization",
+        "DGX Spark implementation belongs to separate issue #7"
+      ],
+      "evidence": [
+        {
+          "summary": "Reusable project-loop architecture and portable naming contract recorded",
+          "command": "Manual review of docs/project-loop.md against issue #5 acceptance criteria",
+          "result": "pass",
+          "environment": "ChatGPT GitHub connector",
+          "commit": "3033f56350cd6c36fb2de139fcc1895301ae2fb4",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Project-loop invariants integrated into the harness operating manual",
+          "command": "Manual consistency review of AGENTS.md and docs/project-loop.md",
+          "result": "pass",
+          "environment": "ChatGPT GitHub connector",
+          "commit": "e34d9da89d955b55a4d902351824fc3fc42ee85d",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Project-loop protocol branch rebased onto main after PR #4 merge",
+          "command": "git rebase origin/main",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "bfd1c766b1e05ab598f549d08dc26af5f7f970d4",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Full harness startup validates rebased project-loop protocol state",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "bfd1c766b1e05ab598f549d08dc26af5f7f970d4",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Rebased PR #6 diff has no whitespace errors",
+          "command": "git diff --check origin/main...HEAD && git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "bfd1c766b1e05ab598f549d08dc26af5f7f970d4",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Feature tracker parses after PR #6 rebase",
+          "command": "python3 -m json.tool feature_list.json >/tmp/video-pal-pr6-feature-list.json",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "bfd1c766b1e05ab598f549d08dc26af5f7f970d4",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Specification validator sources compile after PR #6 rebase",
+          "command": "python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "bfd1c766b1e05ab598f549d08dc26af5f7f970d4",
+          "acceptance_criteria": []
+        }
+      ]
+    },
+    {
+      "id": "feat-008",
+      "kind": "governance",
+      "name": "Implement Project Loop v1",
+      "description": "Implement dry-run selection, isolated pull-request verification, independent checking, durable receipts, and bounded repair controls on the DGX Spark",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-007"
+      ],
+      "status": "blocked",
+      "branch": null,
+      "pull_request": null,
+      "blockers": [
+        "Protocol issue #5 and draft PR #6 require human approval",
+        "Prerequisite governance PRs require merge-order reconciliation",
+        "Human must authorize movement from planning to Stage 0 implementation"
+      ],
+      "evidence": []
     },
     {
       "id": "feat-003",
