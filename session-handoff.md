@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: implement project-loop v1 Stage 0 dry-run selector from issue #7.
-- Current status: Stage 0 implementation is in draft PR #8; PR #8 has been rebased onto updated `main` after PR #6 merged, and post-rebase verification is in progress.
+- Current status: Stage 0 implementation is in draft PR #8; PR #8 has been rebased onto updated `main` after PR #6 merged, and post-rebase verification has run.
 - Branch: `codex/7-project-loop-v1`.
 - Primary writer: Codex.
 - Codex implementation issue: #7.
@@ -43,7 +43,14 @@
 | Receipt fixture | `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` | Pass | DGX Spark | Deterministic schema validation |
 | Skill validation | `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | Project-loop skill is valid |
 | Diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
-| Post-rebase verification | requested PR #8 command set | Pending | DGX Spark | Running after state reconciliation |
+| Post-rebase startup | `./init.sh` | Pass | DGX Spark | Specification validation, traceability, harness validation 100/100, 35 project-loop tests, receipt fixture validation |
+| Post-rebase loop tests | `python3 -m pytest tests/project-loop` | Pass | DGX Spark | 35 tests |
+| Post-rebase shell syntax | `bash -n scripts/project-loop/run_cycle.sh` | Pass | DGX Spark | Stage 0 wrapper only |
+| Post-rebase receipt fixture | `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` | Pass | DGX Spark | `schema_version=1 stop_reason=verifier-failed` |
+| Post-rebase requested skill command | `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Fail | DGX Spark | `python` is not on `PATH` |
+| Post-rebase skill validation | `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | `Skill is valid!` |
+| Post-rebase no-op sanity | `select_work.py` no-candidates fixture plus receipt validation | Pass | DGX Spark | `stop_reason=no-eligible-work` |
+| Post-rebase diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
 
 ## Decisions Recorded
 
@@ -74,6 +81,6 @@
 
 ## Exact Next Action
 
-**Codex:** finish post-rebase verification, push PR #8, update PR #8 body/evidence, and stop.
+**Codex:** push PR #8, update PR #8 body/evidence, and stop.
 **ChatGPT:** re-review Stage 0 on the updated `main` base.
 **Human owner:** decide whether to authorize PR #8 merge if review passes, and separately whether to authorize Stage 1 later.

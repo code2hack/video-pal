@@ -315,6 +315,30 @@
           "environment": "DGX Spark",
           "commit": "f3a116b1c6c757ef3bfde38e61552ddca8cbdf9c",
           "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #8 Stage 0 branch rebased onto updated main after PR #6 merge and full startup passed",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "81dad78c8ed1e1383e734a225210777c29783b45",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Post-rebase Stage 0 checks pass; requested python skill command is unavailable because python is not on PATH, and the same validator passes with python3",
+          "command": "python3 -m pytest tests/project-loop; bash -n scripts/project-loop/run_cycle.sh; python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json; python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop; git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "81dad78c8ed1e1383e734a225210777c29783b45",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Post-rebase Stage 0 no-op sanity check emits and validates a no-eligible-work receipt",
+          "command": "python3 scripts/project-loop/select_work.py --config project-loop.toml --candidates tests/project-loop/fixtures/no_candidates.json --output .project-loop/runs/pr8-rebase-noop-receipt.json && python3 scripts/project-loop/validate_receipt.py .project-loop/runs/pr8-rebase-noop-receipt.json",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "81dad78c8ed1e1383e734a225210777c29783b45",
+          "acceptance_criteria": []
         }
       ]
     },

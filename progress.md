@@ -34,15 +34,17 @@
 ### What's In Progress
 
 - [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
-- [ ] Run and post exact post-rebase DGX Spark evidence for PR #8.
+- [x] Ran post-rebase DGX Spark evidence for PR #8.
+- [ ] Push PR #8 and post exact evidence.
 
 ### What's Next
 
-1. Codex posts exact PR #8 post-rebase verification evidence.
-2. ChatGPT re-reviews PR #8 Stage 0 on the updated `main` base.
-3. Human owner decides whether to authorize PR #8 merge if review passes.
-4. Human owner separately decides whether to authorize any later Stage 1 work.
-5. Keep Stage 2 repair disabled until separate approval.
+1. Push the rebased PR #8 branch with `--force-with-lease`.
+2. Post exact PR #8 post-rebase verification evidence.
+3. ChatGPT re-reviews PR #8 Stage 0 on the updated `main` base.
+4. Human owner decides whether to authorize PR #8 merge if review passes.
+5. Human owner separately decides whether to authorize any later Stage 1 work.
+6. Keep Stage 2 repair disabled until separate approval.
 
 ## Blockers / Risks
 
@@ -98,7 +100,14 @@
 - [x] `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
 - [x] `./init.sh` on the stacked implementation branch — pass.
 - [x] `git diff --check` — pass.
-- [ ] Post-rebase `./init.sh`, project-loop tests, shell syntax, receipt validation, skill validation, no-op sanity, and diff checks.
+- [x] Post-rebase `./init.sh` — pass on DGX Spark; specification validation passed, traceability passed for 8 features, structural harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
+- [x] Post-rebase `python3 -m pytest tests/project-loop` — pass on DGX Spark, 35 tests.
+- [x] Post-rebase `bash -n scripts/project-loop/run_cycle.sh` — pass.
+- [x] Post-rebase `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` — pass.
+- [x] Post-rebase `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — fail because `python` is not on `PATH` in this DGX shell.
+- [x] Post-rebase `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
+- [x] Post-rebase Stage 0 no-op selector sanity and receipt validation — pass, `stop_reason: no-eligible-work`.
+- [x] Post-rebase `git diff --check` — pass.
 
 ## Notes for Next Session
 

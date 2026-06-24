@@ -55,8 +55,9 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 - Protocol and naming have been manually reviewed through the GitHub connector.
 - PR #6 DGX Spark verification passed before merge and is now merged on `main`.
 - Stage 0 focused checks passed before the PR #8 rebase: Python compile, 35 project-loop pytest tests, shell syntax, receipt validation, skill validation, full startup, and diff check.
-- Post-rebase PR #8 verification is pending in this session.
+- Post-rebase PR #8 verification passed for `./init.sh`, `python3 -m pytest tests/project-loop`, shell syntax, receipt fixture validation, `python3` skill validation, Stage 0 no-op receipt validation, and `git diff --check`.
+- The exact requested `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` command cannot run in this DGX shell because `python` is not on `PATH`; the same validator passes with `python3`.
 
 ## Next Step
 
-Codex runs and posts exact post-rebase DGX Spark evidence for PR #8. ChatGPT then re-reviews Stage 0 on the new base. Stage 1 and repair require separate human approval.
+Codex pushes PR #8 and posts exact post-rebase DGX Spark evidence. ChatGPT then re-reviews Stage 0 on the new base. Stage 1 and repair require separate human approval.
