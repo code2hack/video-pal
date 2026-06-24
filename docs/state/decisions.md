@@ -68,7 +68,7 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-Draft PR #2 and draft PR #4 both edit `AGENTS.md`. The human owner must choose the merge order; the later PR must be rebased and reviewed before merge.
+PR #2 merged first. PR #4 now carries the `AGENTS.md` reconciliation that preserves PR #2 branch/identity governance and PR #4 specification workflow governance. PR #4 still requires ChatGPT review and explicit human merge authorization.
 
 ### Application verification commands
 

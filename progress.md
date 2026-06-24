@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Last Updated:** 2026-06-22 SGT
+**Last Updated:** 2026-06-24 SGT
 **Session ID:** specification-workflow
 **Active Feature:** feat-006 - Establish Specification-Driven Workflow
 **Active Issue / PR:** #3 / draft PR #4
@@ -21,27 +21,30 @@
 - [x] Added dependency-free specification and traceability validators.
 - [x] Integrated specification, traceability, and structural harness checks into `init.sh`.
 - [x] Removed the accidental `tmp-test.txt` branch artifact.
+- [x] Merged `origin/main` after PR #2 into `chatgpt/3-specification-workflow`.
+- [x] Reconciled the `AGENTS.md` role-boundary overlap by preserving PR #2 actor/branch ownership rules and PR #4 specification workflow rules.
+- [x] Fixed trailing Markdown whitespace found by `git diff --check`.
+- [x] Completed DGX Spark validation for PR #4.
 
 ### What's In Progress
 
 - [ ] Human review of specification authority, lifecycle, and feature-list ownership.
-- [ ] Codex validation of PR #4 on the DGX Spark.
-- [ ] Merge-order reconciliation with draft PR #2, which also edits `AGENTS.md`.
+- [ ] ChatGPT review after Codex DGX validation and PR #2 reconciliation.
 
 ### What's Next
 
-1. Codex checks out `chatgpt/3-specification-workflow` and runs the exact verification commands listed in PR #4.
-2. Codex records the DGX Spark environment, command output, failures, and remaining risks in PR #4.
-3. ChatGPT reviews the final diff and traceability after any fixes.
-4. Human owner approves or revises the governance rules and explicitly authorizes merge.
-5. After the governance PRs are settled, begin `feat-003` by resolving the open questions in `spec/product.md`, `spec/quality.md`, and `spec/features/VP-001-mvp.md`.
+1. Push the reconciled PR #4 branch and post DGX evidence in PR #4.
+2. ChatGPT reviews the final diff and traceability after Codex reconciliation.
+3. Human owner approves or revises the governance rules and explicitly authorizes merge.
+4. After PR #4 merges, retarget or rebase PR #6 and continue the governance stack.
+5. Product implementation remains blocked until the human owner approves a product feature spec.
 
 ## Blockers / Risks
 
 - [ ] Product scope is intentionally unresolved; all initial product specifications remain `draft`.
 - [ ] No application implementation is eligible until the human owner approves a feature spec.
-- [ ] PR #2 and PR #4 overlap in `AGENTS.md`; the second PR merged will require rebase and review.
-- [ ] ChatGPT-container checks do not prove DGX Spark execution.
+- [ ] PR #4 is still draft and requires ChatGPT review after Codex reconciliation.
+- [ ] Human merge authorization is still required.
 
 ## Decisions Made
 
@@ -76,8 +79,11 @@
 - [x] `python3 scripts/check_traceability.py` — pass in ChatGPT container.
 - [x] `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` — pass in ChatGPT container.
 - [x] `bash -n init.sh` — pass in ChatGPT container.
-- [ ] `./init.sh` — pending on DGX Spark after branch publication because the ChatGPT container does not contain the repository's bundled harness skill.
+- [x] `./init.sh` — pass on DGX Spark after merging `origin/main`.
+- [x] `git diff --check origin/main...HEAD && git diff --check` — pass on DGX Spark after whitespace cleanup.
+- [x] `python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py` — pass on DGX Spark.
+- [x] `python3 -m json.tool feature_list.json >/tmp/video-pal-pr4-feature-list.json` — pass on DGX Spark.
 
 ## Notes for Next Session
 
-The specification system is a governance proposal in draft PR #4, not merged project truth. Do not start application implementation from the draft MVP spec. The exact next actor is Codex, responsible for DGX Spark validation and evidence on PR #4.
+The specification system is a governance proposal in draft PR #4, not merged project truth. Do not start application implementation from the draft MVP spec. PR #4 has been reconciled with merged PR #2 and validated on DGX Spark; the next actor is ChatGPT for review, then the human owner for merge authorization.

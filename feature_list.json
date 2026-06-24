@@ -108,13 +108,12 @@
       "dependencies": [
         "feat-002"
       ],
-      "status": "in-progress",
+      "status": "blocked",
       "branch": "chatgpt/3-specification-workflow",
       "pull_request": 4,
       "blockers": [
         "Human review and merge authorization",
-        "DGX Spark verification by Codex",
-        "Reconcile AGENTS.md overlap with draft PR #2 before merge"
+        "ChatGPT review after Codex DGX verification and PR #2 reconciliation"
       ],
       "evidence": [
         {
@@ -146,6 +145,30 @@
           "command": "bash -n init.sh",
           "result": "pass",
           "environment": "ChatGPT container",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #4 rebased by merging main after PR #2 and full harness startup passed on DGX Spark",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Specification validator sources compile on DGX Spark",
+          "command": "python3 -m py_compile scripts/spec_utils.py scripts/validate_specs.py scripts/check_traceability.py",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #4 diff has no whitespace errors after reconciliation",
+          "command": "git diff --check origin/main...HEAD && git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
           "commit": null,
           "acceptance_criteria": []
         }
