@@ -36,10 +36,54 @@ If a decision exists only in chat, it is provisional. Record binding decisions i
 ### Role Boundaries
 
 - **Human owner**: product direction, final authority, scope approval, architecture approval, secrets, deployment decisions, and merge authorization
-- **ChatGPT**: planning, specification drafting, acceptance criteria, review, architecture discussion, requirements clarification, consistency checks, and GitHub-facing stewardship
-- **Codex**: local implementation, executable tests, commands, DGX Spark verification, refactors, commits, and pushes
+- **ChatGPT**: planning, specification drafting, acceptance criteria, review, architecture discussion, requirements clarification, consistency checks, harness maintenance, and GitHub-facing stewardship
+- **Codex**: local implementation on DGX Spark, executable tests, commands, local verification, refactors, commits, and pushes
 
 Neither AI agent owns product direction. If agents disagree, check this file, approved specifications, feature definitions, decision docs, and existing code, then present tradeoffs for the human owner to decide.
+
+### File Edit Ownership
+
+These are primary responsibility lanes, not access-control boundaries. The human owner may edit any file and may explicitly delegate exceptions.
+
+- **Human-owned decisions**: product vision, priorities, acceptance decisions, secrets, deployment targets, and final approval. The human does not need to edit files directly; ChatGPT or Codex may record an approved decision in tracked files and mark the human as the decision owner.
+- **ChatGPT-primary files**: `AGENTS.md`, `.github/**`, architecture and decision documents under `docs/**`, issue/PR specifications, and feature decomposition or acceptance criteria in `feature_list.json`.
+- **Codex-primary files**: application source, tests, package manifests and lockfiles, build/runtime configuration, implementation scripts, and executable verification logic in `init.sh`.
+- **Shared state files**: `feature_list.json`, `progress.md`, `session-handoff.md`, and `docs/state/current.md`. The actor who changes project truth must update the relevant state and evidence. ChatGPT normally edits planning and acceptance fields; Codex normally edits implementation status and verification evidence.
+- **Decision log**: ChatGPT normally curates `docs/state/decisions.md`; Codex may add implementation constraints discovered locally. Product or architecture decisions become binding only after human approval.
+
+Do not rewrite another actor's recorded evidence without explanation. Correct it by adding an attributed correction with the reason and supporting evidence.
+
+### Branch and Pull Request Workflow
+
+1. **No direct agent pushes to `main` by default.** ChatGPT and Codex work on dedicated branches and submit PRs. An agent may update or merge `main` only after explicit human instruction.
+2. **One issue, one branch, one primary writer.** Check open issues, branches, and PRs before starting. Do not make concurrent uncoordinated edits on another actor's active branch.
+3. **Branch names identify the actor:**
+   - `chatgpt/<issue>-<slug>` for planning, review, documentation, and harness changes
+   - `codex/<issue>-<slug>` for implementation and local verification
+   - `human/<issue>-<slug>` for direct human-authored changes
+4. **Open a draft PR early for non-trivial work.** The PR is the durable discussion, review, evidence, and handoff boundary.
+5. **PR descriptions must record:** actor, linked issue, objective, scope, changed files, verification evidence, known risks, and requested next action.
+6. **Review path:** ChatGPT reviews implementation and consistency; Codex may locally validate ChatGPT-authored harness or documentation changes; the human owner approves the decision to merge. An agent may execute the merge only when the human explicitly asks.
+7. **Handoff through Git.** To transfer work, push the branch and update its PR or tracked state files. Do not require the human to copy text between ChatGPT and Codex.
+8. **Keep branches focused.** Unrelated changes use a separate issue and branch. Resolve or document conflicts before requesting merge.
+
+### Actor Identity and Attribution
+
+All three collaborators may use the same GitHub account, so the GitHub login is the transport identity, not reliable proof of which actor performed the work. Use all of the following conventions:
+
+- branch prefix: `chatgpt/`, `codex/`, or `human/`
+- PR title prefix: `[ChatGPT]`, `[Codex]`, or `[Human]`
+- PR body fields: `Actor`, `Runtime`, `Linked issue`, `Verification`, and `Human decision required`
+- commit trailers:
+
+```text
+Actor: <chatgpt|codex|human>
+Role: <meta|implementation|owner>
+Issue: #<number>
+Runtime: <chatgpt-github-connector|dgx-spark|human-local>
+```
+
+This attribution is declarative rather than cryptographic. If stronger identity separation becomes necessary, use separate GitHub accounts or GitHub Apps for the agents and signed commits with distinct keys.
 
 ### Durable State Files
 
@@ -118,6 +162,11 @@ Verified:
 
 Remaining:
 - ...
+
+Actor: <chatgpt|codex|human>
+Role: <meta|implementation|owner>
+Issue: #<number>
+Runtime: <chatgpt-github-connector|dgx-spark|human-local>
 ```
 
 Avoid vague messages like `update`, `fix stuff`, or `wip`.
