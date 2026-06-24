@@ -342,6 +342,44 @@
       ]
     },
     {
+      "id": "feat-009",
+      "kind": "governance",
+      "name": "Bind Human Authorization Relay",
+      "description": "Record the approved human authorization relay through ChatGPT, scoped approval IDs, durable GitHub authorization packets, privileged-command escalation, and the no-silent-user-level-fallback rule",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-008"
+      ],
+      "status": "in-progress",
+      "branch": "codex/10-authorization-relay",
+      "pull_request": null,
+      "blockers": [
+        "Draft PR review and merge authorization pending",
+        "Governance stack reconciliation for PRs #2, #4, #6, and #8 remains pending"
+      ],
+      "evidence": [
+        {
+          "summary": "Full harness startup validates authorization-relay governance state, specifications, traceability, structural harness, and project-loop checks",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Whitespace and patch sanity checks passed",
+          "command": "git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        }
+      ]
+    },
+    {
       "id": "feat-003",
       "kind": "product-definition",
       "name": "Define Video Pal Product Scope",

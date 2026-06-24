@@ -1,6 +1,6 @@
 # Decisions
 
-Last updated: 2026-06-22
+Last updated: 2026-06-24
 
 ## Accepted
 
@@ -116,6 +116,22 @@ Raw local logs may remain under ignored `.project-loop/`, but essential cross-se
 ### Preserve human gates
 
 The project loop must stop before product acceptance, material specification changes, architecture approval, secret handling, deployment, destructive operations, governance exceptions, or final merge unless the human owner explicitly authorizes the exact action.
+
+### Relay human authorization through ChatGPT to durable GitHub comments
+
+Human approvals may be made in ChatGPT conversation, but they become actionable for Codex only after ChatGPT posts a durable GitHub authorization comment to the relevant issue or pull request.
+
+Each approval comment must include a scoped approval ID, exact approved scope, explicit not-authorized scope, conditions, expiry or invalidation, decision owner, recorder, authorized executor, issue or PR, branch, and status.
+
+ChatGPT records and transmits the human owner's decision; ChatGPT does not independently grant authority. Codex must keep waiting if the durable GitHub authorization comment is absent, ambiguous, or unscoped.
+
+### Require privileged-command escalation and forbid silent user-level fallback
+
+When approved work requires `sudo`, package installation, system-wide dependency changes, service configuration, privileged device access, group membership changes, or similar elevated operations, Codex must stop and post a privileged-operation request to the relevant issue or pull request.
+
+Codex must not silently substitute user-local packages, home-directory prefixes, portable binaries, local Conda or virtualenv packages, home-directory compiled tools, or architecture changes merely to avoid privileged approval. Project-local environments, caches, containers, fixtures, and non-privileged installs remain allowed only when they are already part of the approved architecture or task scope.
+
+Codex must never ask the human to paste a sudo password into chat, GitHub, scripts, environment variables, or logs; must not use `sudo -S`; and must not persist elevated access without separate explicit approval. If a password prompt is required, the human enters it directly in the local DGX terminal.
 
 ### Roll out automation in stages
 

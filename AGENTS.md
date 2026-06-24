@@ -86,6 +86,69 @@ Runtime: <chatgpt-github-connector|dgx-spark|human-local>
 
 This attribution is declarative rather than cryptographic. If stronger identity separation becomes necessary, use separate GitHub accounts or GitHub Apps for the agents and signed commits with distinct keys.
 
+### Human Authorization Relay
+
+Human approvals may be given in ChatGPT conversation, but they become actionable for Codex only after ChatGPT posts a durable GitHub authorization comment to the relevant issue or pull request.
+
+The normal authorization path is:
+
+```text
+human owner <-> ChatGPT sessions <-> GitHub <-> Codex agent sessions
+```
+
+Rules:
+
+- ChatGPT is a relay and recorder of the human owner's decision; ChatGPT does not independently grant authority.
+- Codex must request approval in the relevant issue or pull request when work needs a human-owned decision.
+- ChatGPT reads the request and repository state, drafts an exact approval packet, obtains the human owner's approval in ChatGPT conversation, then posts the durable GitHub authorization comment.
+- Codex may proceed only after reading that durable GitHub authorization comment.
+- Codex must keep waiting if ChatGPT cannot publish the authorization comment.
+- Chat-only summaries, informal acknowledgements, ambiguous wording, or unscoped approval are not sufficient.
+
+Every approval comment must include a scoped approval ID and exact approved scope. Use:
+
+```text
+HA-YYYYMMDD-ISSUE<N>-<SCOPE>-NN
+HA-YYYYMMDD-PR<N>-<SCOPE>-NN
+```
+
+Examples:
+
+```text
+HA-20260624-ISSUE7-STAGE1-01
+HA-20260624-PR8-MERGE-01
+HA-20260624-ISSUE12-SUDO-01
+```
+
+Use separate authorization packets for implementation-stage approval, privileged-command approval, merge approval, and product or architecture approval. Each packet must state approved scope, not-authorized scope, conditions, expiry or invalidation, decision owner, recorder, authorized executor, issue or PR, branch, and status.
+
+Reusable templates live in `docs/protocol/authorization.md`.
+
+### Privileged Operations
+
+When Codex determines approved work requires `sudo`, package installation, system-wide dependency changes, service configuration, privileged device access, group membership changes, or similar elevated operations, Codex must stop and post a privileged-operation request to the relevant issue or pull request.
+
+Codex must not silently bypass a privileged requirement by installing or compiling a user-level substitute unless that substitute is already the approved architecture or task scope.
+
+Silent fallbacks are disallowed, including:
+
+- `pip install --user` or user-local Python packages as a substitute for a requested system dependency
+- user-local prefixes under home directories
+- portable replacement binaries
+- local Conda or virtualenv packages when used only to avoid privileged approval
+- compiling a substitute into the home directory
+- changing the implementation to avoid approval without recording the tradeoff
+
+Allowed without a privileged request only when already approved by architecture or task scope:
+
+- project-local virtual environments
+- project-local dependency caches
+- containers
+- test fixtures
+- non-privileged package installs that are part of the approved project setup
+
+Codex must never ask the human to paste a sudo password into chat, GitHub, a script, an environment variable, or a log. Codex must never use `sudo -S`, echo passwords, edit sudoers, or persist elevated access unless separately and explicitly approved. If a password prompt is required, the human enters it directly in the local DGX terminal.
+
 ### Durable State Files
 
 - `AGENTS.md` - stable operating protocol and invariants
@@ -94,6 +157,7 @@ This attribution is declarative rather than cryptographic. If stronger identity 
 - `spec/quality.md` - cross-cutting quality requirements
 - `spec/features/*.md` - feature behavior and acceptance criteria
 - `docs/project-loop.md` - reusable project-loop architecture and safety contract
+- `docs/protocol/authorization.md` - human authorization relay and privileged-operation templates
 - `feature_list.json` - derived feature state, dependencies, traceability, blockers, and evidence
 - `progress.md` - rolling session log
 - `session-handoff.md` - restart packet for the next session
@@ -215,6 +279,7 @@ Avoid vague messages like `update`, `fix stuff`, or `wip`.
 - `spec/quality.md` — quality authority
 - `spec/features/*.md` — feature behavior authority
 - `docs/project-loop.md` — reusable project-loop authority
+- `docs/protocol/authorization.md` — authorization relay template authority
 - `feature_list.json` — derived work and evidence tracker
 - `progress.md` — session continuity log
 - `init.sh` — standard startup and verification path
