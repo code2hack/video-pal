@@ -230,8 +230,8 @@ def test_output_rejects_tracked_file_even_with_overbroad_run_root(tmp_path: Path
 
 
 def test_output_rejects_protected_path_even_with_overbroad_run_root(tmp_path: Path) -> None:
-    target = ROOT / ".git" / "config"
-    before = target.read_text(encoding="utf-8")
+    target = ROOT / ".github" / "secrets" / f"stage0-protected-{tmp_path.name}.json"
+    assert not target.exists()
     result = run_select(
         {"pull_requests": []},
         tmp_path,
@@ -240,7 +240,7 @@ def test_output_rejects_protected_path_even_with_overbroad_run_root(tmp_path: Pa
     )
     assert result.returncode != 0
     assert "runtime.run_root" in result.stderr
-    assert target.read_text(encoding="utf-8") == before
+    assert not target.exists()
 
 
 def test_output_rejects_root_level_untracked_file_with_repo_run_root(tmp_path: Path) -> None:
