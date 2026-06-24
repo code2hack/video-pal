@@ -3,7 +3,7 @@
 ## Current Objective
 
 - Goal: implement project-loop v1 Stage 0 dry-run selector from issue #7.
-- Current status: Stage 0 implementation is in draft PR #8; run-root guard re-review fix is pushed and evidence is posted.
+- Current status: Stage 0 implementation is in draft PR #8; PR #8 has been rebased onto updated `main` after PR #6 merged, and post-rebase verification is in progress.
 - Branch: `codex/7-project-loop-v1`.
 - Primary writer: Codex.
 - Codex implementation issue: #7.
@@ -15,16 +15,19 @@
 - [x] Updated `AGENTS.md` with project-loop invariants.
 - [x] Standardized reusable names on `project-*`.
 - [x] Defined one-item cycles, worktree isolation, maker/checker separation, bounded repair, durable receipts, and human gates.
-- [x] Opened stacked draft PR #6.
+- [x] Opened and merged project-loop protocol PR #6.
 - [x] Opened Codex-owned implementation issue #7 with required paths, stages, tests, evidence, and branch name.
 - [x] Received human approval for Stage 0 only.
 - [x] Added Stage 0 project-loop configuration, selector, receipt validator, run wrapper, skill, checker contract, fixtures, and tests.
 - [x] Kept repair disabled and GitHub writes disabled by default.
-- [x] Opened draft PR #8 stacked on `chatgpt/5-project-loop-protocol`.
+- [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
 - [x] Addressed PR #8 review findings for Stage 0 output safety, receipt immutability, issue/PR identity collisions, malformed candidate containers, and unresolved Git HEAD.
 - [x] Added requested negative tests for tracked/protected output paths, traversal, symlink escape, Stage 0 invariant mutations, issue/PR same-number selection, malformed candidate containers, and Git HEAD failure.
 - [x] Addressed PR #8 re-review finding by requiring in-repository `runtime.run_root` to be under ignored `.project-loop/`, with external run roots still allowed.
 - [x] Added regression coverage proving `run_root = "."` cannot create an untracked root-level receipt file.
+- [x] PR #2, PR #4, and PR #6 are merged into `main`; PR #6 merge commit is `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`.
+- [x] Rebased PR #8 Stage 0 commits onto updated `main`.
+- [x] Fixed Stage 0 protected-output test portability for isolated Git worktrees.
 
 ## Verification Evidence
 
@@ -40,6 +43,7 @@
 | Receipt fixture | `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` | Pass | DGX Spark | Deterministic schema validation |
 | Skill validation | `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | Project-loop skill is valid |
 | Diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
+| Post-rebase verification | requested PR #8 command set | Pending | DGX Spark | Running after state reconciliation |
 
 ## Decisions Recorded
 
@@ -54,9 +58,9 @@
 
 ## Blockers / Risks
 
-- Draft PR #6 is stacked on draft PR #4.
-- Draft PR #2 also changes `AGENTS.md`; all governance changes require ordered reconciliation.
-- No DGX Spark execution evidence exists for PR #6.
+- PR #8 needs ChatGPT re-review after rebase onto updated `main`.
+- Human merge authorization is required before PR #8 can merge.
+- PR #11 remains downstream and must be retargeted or rebased after PR #8 settles.
 - Stage 1 read-only PR verification requires separate human approval.
 - Stage 2 repair mode requires separate human approval.
 - Product specifications remain draft; product feature implementation is not eligible.
@@ -70,5 +74,6 @@
 
 ## Exact Next Action
 
-**ChatGPT:** re-review Stage 0 fixes in PR #8 for conformity with issue #5 and PR #6.
-**Human owner:** decide whether to authorize Stage 1 later.
+**Codex:** finish post-rebase verification, push PR #8, update PR #8 body/evidence, and stop.
+**ChatGPT:** re-review Stage 0 on the updated `main` base.
+**Human owner:** decide whether to authorize PR #8 merge if review passes, and separately whether to authorize Stage 1 later.

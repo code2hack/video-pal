@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Last Updated:** 2026-06-23
+**Last Updated:** 2026-06-24 SGT
 **Session ID:** project-loop-stage0
 **Active Feature:** feat-008 - Implement Project Loop v1, Stage 0 only
 **Active Issue / PR:** #7 / draft PR #8
@@ -13,9 +13,10 @@
 ### What's Done
 
 - [x] Existing harness communication protocol is merged on `main`.
-- [x] Specification-driven workflow remains proposed in issue #3 and draft PR #4.
+- [x] Branch/actor identity protocol from PR #2 is merged.
+- [x] Specification-driven workflow from PR #4 is merged.
 - [x] Issue #5 records the portable project-loop governance scope and acceptance criteria.
-- [x] Stacked draft PR #6 is open against the PR #4 branch.
+- [x] Project-loop protocol from PR #6 is merged into `main` at `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`.
 - [x] Added `docs/project-loop.md` with the harness/loop distinction, generic naming contract, bounded state machine, worktree isolation, maker/checker separation, durable receipts, human gates, and staged rollout.
 - [x] Updated `AGENTS.md` with portable project-loop invariants.
 - [x] Opened Codex-owned issue #7 for DGX Spark implementation using generic `project-*` paths.
@@ -27,23 +28,27 @@
 - [x] Added targeted negative tests for tracked/protected output paths, traversal, symlink escape, Stage 0 receipt invariant mutations, issue/PR same-number selection, malformed candidate containers, and Git HEAD failure.
 - [x] Patched PR #8 re-review finding: in-repository `runtime.run_root` must be under ignored `.project-loop/`, while external run roots remain allowed.
 - [x] Added regression coverage proving a root-level untracked receipt cannot be created via `run_root = "."`.
+- [x] Rebased PR #8 Stage 0 commits onto updated `main`.
+- [x] Fixed a Stage 0 protected-output negative test so it runs correctly in an isolated Git worktree where `.git` is a pointer file.
 
 ### What's In Progress
 
 - [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
-- [x] Posted updated Stage 0 review-fix evidence in PR #8 and issue #7.
-- [x] Stopped for human/ChatGPT review before Stage 1.
+- [ ] Run and post exact post-rebase DGX Spark evidence for PR #8.
 
 ### What's Next
 
-1. ChatGPT re-reviews PR #8 Stage 0 run-root guard fix.
-2. Human owner decides whether to authorize any later Stage 1 work.
-3. Keep Stage 2 repair disabled until separate approval.
+1. Codex posts exact PR #8 post-rebase verification evidence.
+2. ChatGPT re-reviews PR #8 Stage 0 on the updated `main` base.
+3. Human owner decides whether to authorize PR #8 merge if review passes.
+4. Human owner separately decides whether to authorize any later Stage 1 work.
+5. Keep Stage 2 repair disabled until separate approval.
 
 ## Blockers / Risks
 
-- [ ] Draft PR #6 is stacked on draft PR #4 rather than `main`.
-- [ ] Draft PRs #2, #4, and #6 overlap directly or transitively in `AGENTS.md` and require ordered reconciliation.
+- [ ] PR #8 requires ChatGPT review after rebase onto updated `main`.
+- [ ] Human merge authorization is still required.
+- [ ] PR #11 remains downstream and requires retargeting or rebasing after PR #8.
 - [ ] Stage 1 read-only PR verification is not authorized yet.
 - [ ] Stage 2 repair is not authorized and remains disabled.
 - [ ] Product scope remains intentionally unresolved; product implementation is still ineligible.
@@ -93,7 +98,8 @@
 - [x] `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
 - [x] `./init.sh` on the stacked implementation branch — pass.
 - [x] `git diff --check` — pass.
+- [ ] Post-rebase `./init.sh`, project-loop tests, shell syntax, receipt validation, skill validation, no-op sanity, and diff checks.
 
 ## Notes for Next Session
 
-This branch implements Stage 0 only. It does not implement Stage 1 worktree verification, invoke a real checker, perform repair, merge, deploy, or write GitHub comments from scripts.
+This branch implements Stage 0 only. It does not implement Stage 1 worktree verification, invoke a real checker, perform repair, merge, deploy, or write GitHub comments from scripts. PR #8 is now based on updated `main`; post-rebase verification evidence is being collected.

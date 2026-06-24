@@ -136,15 +136,15 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-Draft PR #2 changes branch/identity protocol. Draft PR #4 adds the specification workflow. Draft PR #6 is stacked on PR #4 and adds project-loop governance. The human owner must choose the merge order, and later PRs must be rebased or retargeted and reviewed.
+PR #2, PR #4, and PR #6 have merged into `main`. PR #8 has been rebased onto updated `main` after PR #6 merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce` and requires post-rebase DGX verification, ChatGPT review, and explicit human merge authorization. PR #11 remains downstream and requires retargeting or rebasing after PR #8 settles.
 
 ### Project-loop protocol approval
 
-Issue #5 and draft PR #6 require human approval before their rules become merged project truth.
+Issue #5 and PR #6 are merged project truth as of merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`.
 
 ### Project-loop local implementation
 
-Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using `chatgpt/5-project-loop-protocol` as the explicit stacked base unless prerequisites merge first.
+Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using `chatgpt/5-project-loop-protocol` as the explicit stacked base unless prerequisites merge first. After PR #6 merged, PR #8 was rebased onto updated `main`.
 
 Stage 0 may implement dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR. GitHub writes remain disabled by default.
 
