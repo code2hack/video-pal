@@ -47,7 +47,8 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 ## Collaboration State
 
 - Codex owns issue #7 and has human approval for Stage 0 implementation only.
-- PR #8 requires ChatGPT review after the rebase onto `main`, then explicit human merge authorization if accepted.
+- ChatGPT reviewed rebased PR #8 at `9e3a41537e34cc657840e180c63a04f21929be45` and accepted Stage 0 code with no remaining code blocker.
+- PR #8 still requires explicit human merge authorization before merge.
 - PR #11 remains downstream and must be retargeted or rebased after PR #8 settles.
 
 ## Verification State
@@ -60,4 +61,4 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 
 ## Next Step
 
-Codex pushes PR #8 and posts exact post-rebase DGX Spark evidence. ChatGPT then re-reviews Stage 0 on the new base. Stage 1 and repair require separate human approval.
+ChatGPT re-reviews only the PR #8 state cleanup and prepares the human merge authorization packet if accepted. Stage 1 and repair require separate human approval.

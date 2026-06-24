@@ -28,6 +28,8 @@
 - [x] PR #2, PR #4, and PR #6 are merged into `main`; PR #6 merge commit is `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`.
 - [x] Rebased PR #8 Stage 0 commits onto updated `main`.
 - [x] Fixed Stage 0 protected-output test portability for isolated Git worktrees.
+- [x] Pushed PR #8 at `9e3a41537e34cc657840e180c63a04f21929be45` and posted exact post-rebase DGX Spark evidence.
+- [x] ChatGPT reviewed rebased PR #8 and accepted Stage 0 code with no remaining code blocker.
 
 ## Verification Evidence
 
@@ -51,6 +53,9 @@
 | Post-rebase skill validation | `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` | Pass | DGX Spark | `Skill is valid!` |
 | Post-rebase no-op sanity | `select_work.py` no-candidates fixture plus receipt validation | Pass | DGX Spark | `stop_reason=no-eligible-work` |
 | Post-rebase diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
+| State-cleanup startup | `./init.sh` | Pass | DGX Spark | Specification validation, traceability, harness validation 100/100, 35 project-loop tests, receipt fixture validation |
+| State-cleanup diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
+| State-cleanup feature JSON parse | `python3 -m json.tool feature_list.json >/tmp/video-pal-pr8-feature-list.json` | Pass | DGX Spark | Feature tracker JSON is valid |
 
 ## Decisions Recorded
 
@@ -65,7 +70,6 @@
 
 ## Blockers / Risks
 
-- PR #8 needs ChatGPT re-review after rebase onto updated `main`.
 - Human merge authorization is required before PR #8 can merge.
 - PR #11 remains downstream and must be retargeted or rebased after PR #8 settles.
 - Stage 1 read-only PR verification requires separate human approval.
@@ -81,6 +85,6 @@
 
 ## Exact Next Action
 
-**Codex:** push PR #8, update PR #8 body/evidence, and stop.
-**ChatGPT:** re-review Stage 0 on the updated `main` base.
+**Codex:** stop after posting cleanup evidence to PR #8 unless review requests another focused cleanup.
+**ChatGPT:** re-review only the state cleanup and prepare the human merge authorization packet if accepted.
 **Human owner:** decide whether to authorize PR #8 merge if review passes, and separately whether to authorize Stage 1 later.

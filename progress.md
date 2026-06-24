@@ -30,25 +30,24 @@
 - [x] Added regression coverage proving a root-level untracked receipt cannot be created via `run_root = "."`.
 - [x] Rebased PR #8 Stage 0 commits onto updated `main`.
 - [x] Fixed a Stage 0 protected-output negative test so it runs correctly in an isolated Git worktree where `.git` is a pointer file.
+- [x] Pushed the rebased PR #8 branch and posted exact post-rebase DGX Spark evidence.
+- [x] ChatGPT reviewed rebased PR #8 at `9e3a41537e34cc657840e180c63a04f21929be45` and accepted Stage 0 code with no remaining code blocker.
 
 ### What's In Progress
 
 - [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
 - [x] Ran post-rebase DGX Spark evidence for PR #8.
-- [ ] Push PR #8 and post exact evidence.
+- [x] Applied the requested state-only cleanup after ChatGPT accepted the Stage 0 code.
 
 ### What's Next
 
-1. Push the rebased PR #8 branch with `--force-with-lease`.
-2. Post exact PR #8 post-rebase verification evidence.
-3. ChatGPT re-reviews PR #8 Stage 0 on the updated `main` base.
-4. Human owner decides whether to authorize PR #8 merge if review passes.
-5. Human owner separately decides whether to authorize any later Stage 1 work.
-6. Keep Stage 2 repair disabled until separate approval.
+1. ChatGPT re-reviews only the PR #8 state cleanup and prepares the human merge authorization packet if accepted.
+2. Human owner decides whether to authorize PR #8 merge.
+3. Human owner separately decides whether to authorize any later Stage 1 work.
+4. Keep Stage 2 repair disabled until separate approval.
 
 ## Blockers / Risks
 
-- [ ] PR #8 requires ChatGPT review after rebase onto updated `main`.
 - [ ] Human merge authorization is still required.
 - [ ] PR #11 remains downstream and requires retargeting or rebasing after PR #8.
 - [ ] Stage 1 read-only PR verification is not authorized yet.
@@ -108,7 +107,10 @@
 - [x] Post-rebase `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
 - [x] Post-rebase Stage 0 no-op selector sanity and receipt validation — pass, `stop_reason: no-eligible-work`.
 - [x] Post-rebase `git diff --check` — pass.
+- [x] State-cleanup `./init.sh` — pass on DGX Spark; specification validation passed, traceability passed for 8 features, structural harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
+- [x] State-cleanup `git diff --check` — pass.
+- [x] State-cleanup `python3 -m json.tool feature_list.json >/tmp/video-pal-pr8-feature-list.json` — pass.
 
 ## Notes for Next Session
 
-This branch implements Stage 0 only. It does not implement Stage 1 worktree verification, invoke a real checker, perform repair, merge, deploy, or write GitHub comments from scripts. PR #8 is now based on updated `main`; post-rebase verification evidence is being collected.
+This branch implements Stage 0 only. It does not implement Stage 1 worktree verification, invoke a real checker, perform repair, merge, deploy, or write GitHub comments from scripts. PR #8 is now based on updated `main`; ChatGPT has accepted Stage 0 code review, and the remaining PR #8 gate is human merge authorization after cleanup review. PR #11 remains downstream and must be retargeted or rebased after PR #8 settles.

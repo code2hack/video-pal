@@ -262,7 +262,6 @@
       "branch": "codex/7-project-loop-v1",
       "pull_request": 8,
       "blockers": [
-        "ChatGPT review after PR #8 rebase onto updated main",
         "Human merge authorization",
         "Stage 1 read-only PR verification requires separate human approval",
         "Stage 2 repair mode requires separate human approval"

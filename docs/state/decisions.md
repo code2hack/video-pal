@@ -136,7 +136,7 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-PR #2, PR #4, and PR #6 have merged into `main`. PR #8 has been rebased onto updated `main` after PR #6 merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce` and requires post-rebase DGX verification, ChatGPT review, and explicit human merge authorization. PR #11 remains downstream and requires retargeting or rebasing after PR #8 settles.
+PR #2, PR #4, and PR #6 have merged into `main`. PR #8 has been rebased onto updated `main` after PR #6 merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`; post-rebase DGX verification has passed, and ChatGPT accepted the Stage 0 code. PR #8 still requires cleanup review and explicit human merge authorization. PR #11 remains downstream and requires retargeting or rebasing after PR #8 settles.
 
 ### Project-loop protocol approval
 
