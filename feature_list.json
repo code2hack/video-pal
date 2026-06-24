@@ -358,7 +358,8 @@
       "pull_request": 11,
       "blockers": [
         "Draft PR review and merge authorization pending",
-        "Governance stack reconciliation for PRs #2, #4, #6, and #8 remains pending"
+        "Governance stack reconciliation for PRs #2, #4, #6, #8, and #11 requires AGENTS.md conflict resolution after PR #2",
+        "Explicit merge authorization is required before any governance PR is merged"
       ],
       "evidence": [
         {
