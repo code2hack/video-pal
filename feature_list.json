@@ -262,7 +262,6 @@
       "branch": "codex/7-project-loop-v1",
       "pull_request": 8,
       "blockers": [
-        "Human merge authorization",
         "Stage 1 read-only PR verification requires separate human approval",
         "Stage 2 repair mode requires separate human approval"
       ],
@@ -337,6 +336,70 @@
           "result": "pass",
           "environment": "DGX Spark",
           "commit": "81dad78c8ed1e1383e734a225210777c29783b45",
+          "acceptance_criteria": []
+        }
+      ]
+    },
+    {
+      "id": "feat-009",
+      "kind": "governance",
+      "name": "Bind Human Authorization Relay",
+      "description": "Record the approved human authorization relay through ChatGPT, scoped approval IDs, durable GitHub authorization packets, privileged-command escalation, and the no-silent-user-level-fallback rule",
+      "spec_ref": null,
+      "spec_revision": null,
+      "requirements": [],
+      "acceptance_criteria": [],
+      "dependencies": [
+        "feat-008"
+      ],
+      "status": "in-progress",
+      "branch": "codex/10-authorization-relay",
+      "pull_request": 11,
+      "blockers": [
+        "ChatGPT re-review after PR #11 rebase onto updated main",
+        "Human merge authorization",
+        "Stage 1 project-loop verification requires separate human approval",
+        "Stage 2 repair mode requires separate human approval"
+      ],
+      "evidence": [
+        {
+          "summary": "Full harness startup validates authorization-relay governance state, specifications, traceability, structural harness, and project-loop checks",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "7a0f89b9ce2230028ceeb6e59c32c46fe06123fe",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "Whitespace and patch sanity checks passed",
+          "command": "git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": "7a0f89b9ce2230028ceeb6e59c32c46fe06123fe",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #11 rebased onto updated main after PR #8 merge and full startup passed",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #11 post-rebase diff has no whitespace errors",
+          "command": "git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #11 post-rebase feature tracker parses as JSON",
+          "command": "python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
           "acceptance_criteria": []
         }
       ]

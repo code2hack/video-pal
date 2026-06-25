@@ -2,115 +2,77 @@
 
 ## Current State
 
-**Last Updated:** 2026-06-24 SGT
-**Session ID:** project-loop-stage0
-**Active Feature:** feat-008 - Implement Project Loop v1, Stage 0 only
-**Active Issue / PR:** #7 / draft PR #8
-**Active Branch:** `codex/7-project-loop-v1`
+**Last Updated:** 2026-06-25 SGT
+**Session ID:** authorization-relay-governance
+**Active Feature:** feat-009 - Bind Human Authorization Relay
+**Active Issue / PR:** #10 / draft PR #11
+**Active Branch:** `codex/10-authorization-relay`
 
 ## Status
 
 ### What's Done
 
-- [x] Existing harness communication protocol is merged on `main`.
-- [x] Branch/actor identity protocol from PR #2 is merged.
-- [x] Specification-driven workflow from PR #4 is merged.
-- [x] Issue #5 records the portable project-loop governance scope and acceptance criteria.
-- [x] Project-loop protocol from PR #6 is merged into `main` at `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`.
-- [x] Added `docs/project-loop.md` with the harness/loop distinction, generic naming contract, bounded state machine, worktree isolation, maker/checker separation, durable receipts, human gates, and staged rollout.
-- [x] Updated `AGENTS.md` with portable project-loop invariants.
-- [x] Opened Codex-owned issue #7 for DGX Spark implementation using generic `project-*` paths.
-- [x] Human owner authorized Stage 0 implementation only in issue #7.
-- [x] Added `project-loop.toml` with dry-run mode and repair disabled.
-- [x] Added Stage 0 selector, receipt validator, run wrapper, skill instructions, checker contract, fixtures, and pytest tests.
-- [x] Integrated proven project-loop checks into `init.sh`.
-- [x] Patched PR #8 review findings: output writes are restricted to the configured run root, Stage 0 receipt immutability is enforced, issue/PR identity collisions are handled, malformed candidate containers fail closed, and unresolved Git HEAD fails closed.
-- [x] Added targeted negative tests for tracked/protected output paths, traversal, symlink escape, Stage 0 receipt invariant mutations, issue/PR same-number selection, malformed candidate containers, and Git HEAD failure.
-- [x] Patched PR #8 re-review finding: in-repository `runtime.run_root` must be under ignored `.project-loop/`, while external run roots remain allowed.
-- [x] Added regression coverage proving a root-level untracked receipt cannot be created via `run_root = "."`.
-- [x] Rebased PR #8 Stage 0 commits onto updated `main`.
-- [x] Fixed a Stage 0 protected-output negative test so it runs correctly in an isolated Git worktree where `.git` is a pointer file.
-- [x] Pushed the rebased PR #8 branch and posted exact post-rebase DGX Spark evidence.
-- [x] ChatGPT reviewed rebased PR #8 at `9e3a41537e34cc657840e180c63a04f21929be45` and accepted Stage 0 code with no remaining code blocker.
+- [x] Read issue #10 and the ChatGPT handoff comment.
+- [x] Confirmed the task is governance-only and does not authorize Stage 1, Stage 2 repair, product implementation, merge, deployment, or privileged operations.
+- [x] Added binding human-authorization-relay rules to `AGENTS.md`.
+- [x] Added privileged-operation escalation and no-silent-user-level-fallback rules to `AGENTS.md`.
+- [x] Added reusable relay and privileged-operation templates in `docs/protocol/authorization.md`.
+- [x] Recorded the authorization relay and privileged-command decisions in `docs/state/decisions.md`.
+- [x] Updated `docs/state/current.md`, `feature_list.json`, `progress.md`, and `session-handoff.md` for `feat-009`.
+- [x] Opened draft PR #11 for `codex/10-authorization-relay`.
+- [x] ChatGPT reviewed PR #11 and accepted the focused governance scope with no blocking findings before stack reconciliation.
+- [x] PR #2, PR #4, PR #6, and PR #8 have merged into `main`.
 
 ### What's In Progress
 
-- [x] Opened draft PR #8 for `codex/7-project-loop-v1`.
-- [x] Ran post-rebase DGX Spark evidence for PR #8.
-- [x] Applied the requested state-only cleanup after ChatGPT accepted the Stage 0 code.
+- [x] Started PR #11 retarget/rebase onto updated `main` after PR #8 merge.
+- [x] Replayed only PR #11 authorization-relay commits onto updated `main` after PR #8 merged.
+- [x] Reconciled `AGENTS.md` by preserving branch/identity workflow rules, project-loop rules, and authorization-relay/privileged-operation rules.
+- [x] Reconciled state files to remove stale PR #2/#4/#6/#8 stack blockers and keep PR #11 as the active review item.
+- [ ] Rerun final verification, push PR #11, update the PR body, and post evidence.
 
 ### What's Next
 
-1. ChatGPT re-reviews only the PR #8 state cleanup and prepares the human merge authorization packet if accepted.
-2. Human owner decides whether to authorize PR #8 merge.
-3. Human owner separately decides whether to authorize any later Stage 1 work.
-4. Keep Stage 2 repair disabled until separate approval.
+1. Run final DGX verification.
+2. Push `codex/10-authorization-relay`.
+3. Update PR #11 body and post evidence for ChatGPT re-review.
+4. Keep Stage 1, Stage 2 repair, product implementation, deployment, merge, and privileged-command gates closed until separately authorized.
 
 ## Blockers / Risks
 
-- [ ] Human merge authorization is still required.
-- [ ] PR #11 remains downstream and requires retargeting or rebasing after PR #8.
-- [ ] Stage 1 read-only PR verification is not authorized yet.
+- [ ] PR #11 requires ChatGPT re-review after the rebase onto updated `main`.
+- [ ] Human merge authorization is required before PR #11 can merge.
+- [ ] Stage 1 project-loop verification is not authorized by issue #10.
 - [ ] Stage 2 repair is not authorized and remains disabled.
 - [ ] Product scope remains intentionally unresolved; product implementation is still ineligible.
-- [ ] Automation could amplify mistakes if repair is enabled before dry-run and read-only stages are proven.
 
 ## Decisions Made
 
-- **Use portable framework names:** reusable harness and loop artifacts use `project-*`, not the repository or product name.
-- **Separate harness and loop:** the harness defines one reliable run; the loop discovers, invokes, checks, records, and transitions between bounded runs.
-- **Begin with PR verification:** Loop v1 targets pull-request selection and verification before autonomous feature implementation.
-- **Use isolated worktrees:** modifying runs must not share a checkout with human or other agent work.
-- **Separate maker and checker:** unattended changes require an independent read-only verifier.
-- **Bound all repair:** default maximum is three attempts and repair remains disabled until earlier stages are proven.
-- **Use durable receipts:** essential run state is posted to GitHub; raw local logs alone are insufficient.
-- **Preserve human gates:** product acceptance, architecture, secrets, deployment, destructive actions, governance exceptions, and merge remain human-controlled.
-- **Stage 0 implementation authorized:** human approval on issue #7 permits dry-run selector, configuration, receipt validation, fixtures, and deterministic tests only.
+- **Use durable GitHub authorization comments:** Codex may act on human-owned approvals only after ChatGPT posts a scoped authorization packet to the relevant issue or PR.
+- **Use scoped approval IDs:** Approval IDs follow `HA-YYYYMMDD-ISSUE<N>-<SCOPE>-NN` or `HA-YYYYMMDD-PR<N>-<SCOPE>-NN`.
+- **Separate approval packets:** Implementation-stage, privileged-command, merge, product, and architecture approvals require distinct packets.
+- **Escalate privileged operations:** Codex must request approval before `sudo`, package installs, system-wide dependency changes, service configuration, device access, group membership changes, or similar elevated work.
+- **Forbid silent user-level fallback:** Codex must not use user-local substitutes merely to avoid privileged approval.
+- **No password relay:** Sudo passwords must never pass through chat, GitHub, scripts, environment variables, or logs.
 
 ## Files Modified This Session
 
 - `AGENTS.md`
-- `docs/project-loop.md`
+- `docs/protocol/authorization.md`
+- `docs/state/current.md`
+- `docs/state/decisions.md`
 - `feature_list.json`
 - `progress.md`
 - `session-handoff.md`
-- `docs/state/current.md`
-- `docs/state/decisions.md`
-- `.gitignore`
-- `project-loop.toml`
-- `.agents/skills/project-loop/SKILL.md`
-- `.agents/skills/project-loop/references/project-run-receipt.md`
-- `.codex/agents/project-verifier.toml`
-- `scripts/project-loop/select_work.py`
-- `scripts/project-loop/validate_receipt.py`
-- `scripts/project-loop/run_cycle.sh`
-- `tests/project-loop/`
-- `init.sh`
 
 ## Verification Evidence
 
-- [x] `docs/project-loop.md` manually reviewed against issue #5 acceptance criteria through the GitHub connector.
-- [x] `AGENTS.md` manually checked for consistency with `docs/project-loop.md`.
-- [x] Generic path examples contain no product-specific harness or loop names.
-- [x] `python3 -m py_compile scripts/project-loop/select_work.py scripts/project-loop/validate_receipt.py` — pass on DGX Spark.
-- [x] `python3 -m pytest tests/project-loop` — pass, 35 tests.
-- [x] `bash -n scripts/project-loop/run_cycle.sh` — pass.
-- [x] `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` — pass.
-- [x] `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
-- [x] `./init.sh` on the stacked implementation branch — pass.
-- [x] `git diff --check` — pass.
-- [x] Post-rebase `./init.sh` — pass on DGX Spark; specification validation passed, traceability passed for 8 features, structural harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
-- [x] Post-rebase `python3 -m pytest tests/project-loop` — pass on DGX Spark, 35 tests.
-- [x] Post-rebase `bash -n scripts/project-loop/run_cycle.sh` — pass.
-- [x] Post-rebase `python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json` — pass.
-- [x] Post-rebase `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — fail because `python` is not on `PATH` in this DGX shell.
-- [x] Post-rebase `python3 /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` — pass.
-- [x] Post-rebase Stage 0 no-op selector sanity and receipt validation — pass, `stop_reason: no-eligible-work`.
+- [x] Pre-rebase `./init.sh` on PR #11 branch - pass on DGX Spark; specification validation passed, traceability passed for 9 features, harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
+- [x] Earlier issue #10 verification before stack reconciliation: `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-feature-list.json` passed on DGX Spark.
+- [x] Post-rebase `./init.sh` — pass on DGX Spark; specification validation passed, traceability passed for 9 features, structural harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
 - [x] Post-rebase `git diff --check` — pass.
-- [x] State-cleanup `./init.sh` — pass on DGX Spark; specification validation passed, traceability passed for 8 features, structural harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
-- [x] State-cleanup `git diff --check` — pass.
-- [x] State-cleanup `python3 -m json.tool feature_list.json >/tmp/video-pal-pr8-feature-list.json` — pass.
+- [x] Post-rebase `python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json` — pass.
 
 ## Notes for Next Session
 
-This branch implements Stage 0 only. It does not implement Stage 1 worktree verification, invoke a real checker, perform repair, merge, deploy, or write GitHub comments from scripts. PR #8 is now based on updated `main`; ChatGPT has accepted Stage 0 code review, and the remaining PR #8 gate is human merge authorization after cleanup review. PR #11 remains downstream and must be retargeted or rebased after PR #8 settles.
+Issue #10 is a governance-only task. It does not authorize Stage 1, Stage 2 repair, product implementation, merge, deployment, or privileged commands. If privileged work becomes necessary, use the request template in `docs/protocol/authorization.md` and wait for a ChatGPT-posted durable authorization packet.

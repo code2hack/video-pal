@@ -1,6 +1,6 @@
 # Decisions
 
-Last updated: 2026-06-22
+Last updated: 2026-06-24
 
 ## Accepted
 
@@ -117,6 +117,22 @@ Raw local logs may remain under ignored `.project-loop/`, but essential cross-se
 
 The project loop must stop before product acceptance, material specification changes, architecture approval, secret handling, deployment, destructive operations, governance exceptions, or final merge unless the human owner explicitly authorizes the exact action.
 
+### Relay human authorization through ChatGPT to durable GitHub comments
+
+Human approvals may be made in ChatGPT conversation, but they become actionable for Codex only after ChatGPT posts a durable GitHub authorization comment to the relevant issue or pull request.
+
+Each approval comment must include a scoped approval ID, exact approved scope, explicit not-authorized scope, conditions, expiry or invalidation, decision owner, recorder, authorized executor, issue or PR, branch, and status.
+
+ChatGPT records and transmits the human owner's decision; ChatGPT does not independently grant authority. Codex must keep waiting if the durable GitHub authorization comment is absent, ambiguous, or unscoped.
+
+### Require privileged-command escalation and forbid silent user-level fallback
+
+When approved work requires `sudo`, package installation, system-wide dependency changes, service configuration, privileged device access, group membership changes, or similar elevated operations, Codex must stop and post a privileged-operation request to the relevant issue or pull request.
+
+Codex must not silently substitute user-local packages, home-directory prefixes, portable binaries, local Conda or virtualenv packages, home-directory compiled tools, or architecture changes merely to avoid privileged approval. Project-local environments, caches, containers, fixtures, and non-privileged installs remain allowed only when they are already part of the approved architecture or task scope.
+
+Codex must never ask the human to paste a sudo password into chat, GitHub, scripts, environment variables, or logs; must not use `sudo -S`; and must not persist elevated access without separate explicit approval. If a password prompt is required, the human enters it directly in the local DGX terminal.
+
 ### Roll out automation in stages
 
 1. dry-run selector
@@ -136,7 +152,7 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-PR #2, PR #4, and PR #6 have merged into `main`. PR #8 has been rebased onto updated `main` after PR #6 merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`; post-rebase DGX verification has passed, and ChatGPT accepted the Stage 0 code. PR #8 still requires cleanup review and explicit human merge authorization. PR #11 remains downstream and requires retargeting or rebasing after PR #8 settles.
+PR #2, PR #4, PR #6, and PR #8 have merged into `main`. PR #11 has been rebased onto updated `main` after PR #8 merge commit `b0fc66efb9bd7f0ccdc26c4a31368d205046e2cc`; post-rebase DGX verification has passed and ChatGPT re-review is pending. PR #11 still requires explicit human merge authorization before merge.
 
 ### Project-loop protocol approval
 
@@ -146,7 +162,7 @@ Issue #5 and PR #6 are merged project truth as of merge commit `4cc68bf4f16a7b30
 
 Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using `chatgpt/5-project-loop-protocol` as the explicit stacked base unless prerequisites merge first. After PR #6 merged, PR #8 was rebased onto updated `main`.
 
-Stage 0 may implement dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR. GitHub writes remain disabled by default.
+Stage 0 dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR merged through PR #8. GitHub writes remain disabled by default.
 
 Stage 1 read-only PR verification and Stage 2 repair require separate human approval.
 

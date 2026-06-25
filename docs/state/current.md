@@ -1,12 +1,12 @@
 # Current Project State
 
-Last updated: 2026-06-24 SGT
+Last updated: 2026-06-25 SGT
 
 ## Snapshot
 
 The project remains in harness, specification, and automation-governance setup. Application implementation has not started.
 
-Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
+Current active feature: `feat-009` — Bind Human Authorization Relay.
 
 ## Repository State
 
@@ -16,7 +16,8 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 - Branch / actor identity protocol: PR #2 merged
 - Specification workflow: PR #4 merged
 - Project-loop protocol: PR #6 merged into `main` at `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`
-- Codex implementation issue / branch / PR: #7 / `codex/7-project-loop-v1` / draft PR #8, now rebased onto `main`
+- Project-loop Stage 0 implementation: PR #8 merged into `main` at `b0fc66efb9bd7f0ccdc26c4a31368d205046e2cc`
+- Authorization relay issue / branch / PR: #10 / `codex/10-authorization-relay` / draft PR #11, rebased onto updated `main`
 - No application manifest or source stack exists.
 
 ## Specification State
@@ -29,36 +30,33 @@ Current active feature: `feat-008` — Implement Project Loop v1, Stage 0 only.
 
 - `docs/project-loop.md` defines the reusable controller above the harness.
 - Reusable paths use generic `project-*` naming.
-- Loop v1 begins with one-item dry-run selection and read-only PR verification.
-- Modifying runs require isolated worktrees.
-- Maker and checker are separate; the checker is read-only.
-- Repair is bounded and must default off until earlier stages are proven.
-- Every non-no-op cycle publishes a durable receipt.
-- Human approval remains required for product/architecture decisions, deployment, destructive actions, governance exceptions, and merge.
-- Stage 0 project-loop dry-run selection code exists on `codex/7-project-loop-v1`.
-- PR #8 has been rebased onto updated `main`; no Stage 1, Stage 2 repair, GitHub write behavior, product implementation, deployment, or privileged operation was added.
-- PR #8 review hardening is committed for Stage 0 output safety, run-root confinement, receipt immutability, issue/PR identity handling, malformed candidate containers, and unresolved Git HEAD.
-- PR #8 includes a worktree-compatible protected-path regression test so Stage 0 verification runs correctly in isolated Git worktrees.
+- Stage 0 project-loop dry-run selection code is merged on `main`.
 - Stage 0 uses fixture or manually supplied JSON by default.
 - GitHub writes and receipt comments remain disabled by default.
 - Stage 1 read-only PR verification is not implemented.
 - Stage 2 repair remains disabled and unimplemented beyond receipt/config safety checks.
 
+## Authorization State
+
+- Issue #10 records the human-approved rule that human authorization may be relayed through ChatGPT into durable GitHub comments.
+- Codex can act on human-owned approvals only after ChatGPT posts a scoped GitHub authorization comment with an approval ID and exact scope.
+- Privileged-command work requires a GitHub request and relay approval; Codex must not silently use user-local fallbacks to avoid privileged approval.
+- Sudo passwords must never pass through chat, GitHub, scripts, environment variables, or logs.
+
 ## Collaboration State
 
-- Codex owns issue #7 and has human approval for Stage 0 implementation only.
-- ChatGPT reviewed rebased PR #8 at `9e3a41537e34cc657840e180c63a04f21929be45` and accepted Stage 0 code with no remaining code blocker.
-- PR #8 still requires explicit human merge authorization before merge.
-- PR #11 remains downstream and must be retargeted or rebased after PR #8 settles.
+- Codex owns issue #10 and draft PR #11 for the focused authorization-relay governance task.
+- PR #11 has been rebased onto updated `main` after PR #8 merged.
+- PR #11 requires ChatGPT re-review before any merge authorization packet.
+- Human merge authorization remains required before PR #11 can merge.
+- Stage 1 read-only PR verification and Stage 2 repair remain unauthorized.
 
 ## Verification State
 
-- Protocol and naming have been manually reviewed through the GitHub connector.
-- PR #6 DGX Spark verification passed before merge and is now merged on `main`.
-- Stage 0 focused checks passed before the PR #8 rebase: Python compile, 35 project-loop pytest tests, shell syntax, receipt validation, skill validation, full startup, and diff check.
-- Post-rebase PR #8 verification passed for `./init.sh`, `python3 -m pytest tests/project-loop`, shell syntax, receipt fixture validation, `python3` skill validation, Stage 0 no-op receipt validation, and `git diff --check`.
-- The exact requested `python /home/code2hack/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/project-loop` command cannot run in this DGX shell because `python` is not on `PATH`; the same validator passes with `python3`.
+- PR #8 Stage 0 checks passed on DGX Spark before merge.
+- Authorization relay checks passed on DGX Spark before the PR #11 rebase: `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-feature-list.json`.
+- PR #11 post-rebase verification passed on DGX Spark for `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json`.
 
 ## Next Step
 
-ChatGPT re-reviews only the PR #8 state cleanup and prepares the human merge authorization packet if accepted. Stage 1 and repair require separate human approval.
+Codex pushes PR #11, updates the PR body, posts exact post-rebase evidence, and hands off for ChatGPT review. Stage 1, Stage 2 repair, product implementation, deployment, privileged commands, and merge remain closed until separately authorized.
