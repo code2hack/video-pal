@@ -1,6 +1,6 @@
 # Decisions
 
-Last updated: 2026-06-24
+Last updated: 2026-06-22
 
 ## Accepted
 
@@ -35,7 +35,7 @@ Authority is separated across product scope, feature behavior, quality constrain
 
 ### Human approval gates product behavior
 
-A `draft` specification is discussion material only. Only the human owner may authorize `draft -> approved`, and application implementation must not start from a draft product spec.
+A `draft` specification is discussion material only. Only the human owner may authorize `draft → approved`, and application implementation must not start from a draft product spec.
 
 ### Stable traceability identifiers
 
@@ -84,9 +84,9 @@ The loop must consume the harness rather than duplicate or bypass it.
 One cycle processes at most one item and follows:
 
 ```text
-DISCOVER -> CLAIM -> ISOLATE -> RECONCILE -> BASELINE
--> VERIFY -> REPAIR (bounded) -> INDEPENDENT REVIEW
--> RECEIPT -> HANDOFF / STOP
+DISCOVER → CLAIM → ISOLATE → RECONCILE → BASELINE
+→ VERIFY → REPAIR (bounded) → INDEPENDENT REVIEW
+→ RECEIPT → HANDOFF / STOP
 ```
 
 A later schedule may start another bounded cycle. A cycle must not retry indefinitely.
@@ -136,15 +136,15 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-PR #2 and PR #4 have merged. PR #6 has been rebased and retargeted onto updated `main`, Codex DGX verification is recorded, and ChatGPT requested state-file cleanup only before preparing the human merge authorization packet. PR #6 still requires explicit human merge authorization. PR #8 and PR #11 remain downstream and require retargeting or rebasing after prerequisite governance PRs settle.
+PR #2, PR #4, and PR #6 have merged into `main`. PR #8 has been rebased onto updated `main` after PR #6 merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`; post-rebase DGX verification has passed, and ChatGPT accepted the Stage 0 code. PR #8 still requires cleanup review and explicit human merge authorization. PR #11 remains downstream and requires retargeting or rebasing after PR #8 settles.
 
 ### Project-loop protocol approval
 
-Issue #5 and draft PR #6 require human approval before their rules become merged project truth.
+Issue #5 and PR #6 are merged project truth as of merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`.
 
 ### Project-loop local implementation
 
-Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using the project-loop protocol branch as the stacked base unless prerequisites merge first.
+Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using `chatgpt/5-project-loop-protocol` as the explicit stacked base unless prerequisites merge first. After PR #6 merged, PR #8 was rebased onto updated `main`.
 
 Stage 0 may implement dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR. GitHub writes remain disabled by default.
 

@@ -1,0 +1,22 @@
+name = "project-verifier"
+role = "read-only-checker"
+read_only = true
+
+[scope]
+may_edit_files = false
+may_merge = false
+may_deploy = false
+may_handle_secrets = false
+
+[checks]
+require_agents_md_conformance = true
+require_spec_conformance = true
+require_acceptance_coverage = true
+require_changed_file_scope = true
+require_command_evidence = true
+require_remaining_risks = true
+
+[runtime]
+# Stage 1 must fail closed until a concrete shell-callable checker exists.
+command = ""
+unavailable_stop_reason = "checker-unavailable"

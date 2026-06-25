@@ -19,6 +19,12 @@ if ! command -v node >/dev/null 2>&1; then
 fi
 node skills/harness-creator/scripts/validate-harness.mjs --target .
 
+echo "=== Project Loop Validation ==="
+python3 -m py_compile scripts/project-loop/select_work.py scripts/project-loop/validate_receipt.py
+python3 -m pytest tests/project-loop
+bash -n scripts/project-loop/run_cycle.sh
+python3 scripts/project-loop/validate_receipt.py tests/project-loop/fixtures/verifier_failure_receipt.json
+
 echo "=== Application Verification ==="
 if [[ -f pyproject.toml || -f package.json || -f Cargo.toml || -f go.mod ]]; then
   echo "ERROR: an application manifest exists but init.sh has no application verification command yet." >&2
