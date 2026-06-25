@@ -262,7 +262,6 @@
       "branch": "codex/7-project-loop-v1",
       "pull_request": 8,
       "blockers": [
-        "Human merge authorization",
         "Stage 1 read-only PR verification requires separate human approval",
         "Stage 2 repair mode requires separate human approval"
       ],
@@ -357,9 +356,10 @@
       "branch": "codex/10-authorization-relay",
       "pull_request": 11,
       "blockers": [
-        "Draft PR review and merge authorization pending",
-        "Governance stack reconciliation for PRs #2, #4, #6, #8, and #11 requires AGENTS.md conflict resolution after PR #2",
-        "Explicit merge authorization is required before any governance PR is merged"
+        "ChatGPT re-review after PR #11 rebase onto updated main",
+        "Human merge authorization",
+        "Stage 1 project-loop verification requires separate human approval",
+        "Stage 2 repair mode requires separate human approval"
       ],
       "evidence": [
         {
@@ -376,6 +376,30 @@
           "result": "pass",
           "environment": "DGX Spark",
           "commit": "7a0f89b9ce2230028ceeb6e59c32c46fe06123fe",
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #11 rebased onto updated main after PR #8 merge and full startup passed",
+          "command": "./init.sh",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #11 post-rebase diff has no whitespace errors",
+          "command": "git diff --check",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
+          "acceptance_criteria": []
+        },
+        {
+          "summary": "PR #11 post-rebase feature tracker parses as JSON",
+          "command": "python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json",
+          "result": "pass",
+          "environment": "DGX Spark",
+          "commit": null,
           "acceptance_criteria": []
         }
       ]

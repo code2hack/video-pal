@@ -21,6 +21,8 @@
 - [x] Opened draft PR #11 against the then-current PR #8 branch.
 - [x] PR #2, PR #4, PR #6, and PR #8 have merged into `main`.
 - [x] Started replaying only the PR #11 authorization-relay commits onto updated `main`.
+- [x] Rebased PR #11 onto updated `main` after PR #8 merge.
+- [x] Reconciled stale stack state so PR #11 is the active governance item.
 
 ## Verification Evidence
 
@@ -30,6 +32,9 @@
 | Earlier issue #10 startup | `./init.sh` | Pass | DGX Spark | Authorization-relay governance branch before stack reconciliation |
 | Earlier issue #10 diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
 | Earlier issue #10 feature JSON parse | `python3 -m json.tool feature_list.json >/tmp/video-pal-feature-list.json` | Pass | DGX Spark | Feature tracker JSON was valid |
+| Post-rebase startup | `./init.sh` | Pass | DGX Spark | Specification validation, traceability for 9 features, harness validation 100/100, 35 project-loop tests, receipt fixture validation |
+| Post-rebase diff check | `git diff --check` | Pass | DGX Spark | No whitespace errors |
+| Post-rebase feature JSON parse | `python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json` | Pass | DGX Spark | Feature tracker JSON is valid |
 
 ## Decisions Recorded
 

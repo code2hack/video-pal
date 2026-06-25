@@ -26,15 +26,17 @@
 ### What's In Progress
 
 - [x] Started PR #11 retarget/rebase onto updated `main` after PR #8 merge.
-- [ ] Finish rebase conflict reconciliation, rerun verification, push PR #11, and post evidence.
+- [x] Replayed only PR #11 authorization-relay commits onto updated `main` after PR #8 merged.
+- [x] Reconciled `AGENTS.md` by preserving branch/identity workflow rules, project-loop rules, and authorization-relay/privileged-operation rules.
+- [x] Reconciled state files to remove stale PR #2/#4/#6/#8 stack blockers and keep PR #11 as the active review item.
+- [ ] Rerun final verification, push PR #11, update the PR body, and post evidence.
 
 ### What's Next
 
-1. Complete the PR #11 rebase onto `main`.
-2. Run final DGX verification.
-3. Push `codex/10-authorization-relay`.
-4. Update PR #11 body and post evidence for ChatGPT re-review.
-5. Keep Stage 1, Stage 2 repair, product implementation, deployment, merge, and privileged-command gates closed until separately authorized.
+1. Run final DGX verification.
+2. Push `codex/10-authorization-relay`.
+3. Update PR #11 body and post evidence for ChatGPT re-review.
+4. Keep Stage 1, Stage 2 repair, product implementation, deployment, merge, and privileged-command gates closed until separately authorized.
 
 ## Blockers / Risks
 
@@ -67,6 +69,9 @@
 
 - [x] Pre-rebase `./init.sh` on PR #11 branch - pass on DGX Spark; specification validation passed, traceability passed for 9 features, harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
 - [x] Earlier issue #10 verification before stack reconciliation: `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-feature-list.json` passed on DGX Spark.
+- [x] Post-rebase `./init.sh` — pass on DGX Spark; specification validation passed, traceability passed for 9 features, structural harness validation 100/100, 35 project-loop tests passed, receipt fixture validation passed.
+- [x] Post-rebase `git diff --check` — pass.
+- [x] Post-rebase `python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json` — pass.
 
 ## Notes for Next Session
 

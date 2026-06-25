@@ -17,7 +17,7 @@ Current active feature: `feat-009` — Bind Human Authorization Relay.
 - Specification workflow: PR #4 merged
 - Project-loop protocol: PR #6 merged into `main` at `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`
 - Project-loop Stage 0 implementation: PR #8 merged into `main` at `b0fc66efb9bd7f0ccdc26c4a31368d205046e2cc`
-- Authorization relay issue / branch / PR: #10 / `codex/10-authorization-relay` / draft PR #11, being rebased onto updated `main`
+- Authorization relay issue / branch / PR: #10 / `codex/10-authorization-relay` / draft PR #11, rebased onto updated `main`
 - No application manifest or source stack exists.
 
 ## Specification State
@@ -46,8 +46,8 @@ Current active feature: `feat-009` — Bind Human Authorization Relay.
 ## Collaboration State
 
 - Codex owns issue #10 and draft PR #11 for the focused authorization-relay governance task.
-- PR #11 is being retargeted/rebased onto updated `main` after PR #8 merged.
-- PR #11 requires DGX verification and ChatGPT re-review before any merge authorization packet.
+- PR #11 has been rebased onto updated `main` after PR #8 merged.
+- PR #11 requires ChatGPT re-review before any merge authorization packet.
 - Human merge authorization remains required before PR #11 can merge.
 - Stage 1 read-only PR verification and Stage 2 repair remain unauthorized.
 
@@ -55,8 +55,8 @@ Current active feature: `feat-009` — Bind Human Authorization Relay.
 
 - PR #8 Stage 0 checks passed on DGX Spark before merge.
 - Authorization relay checks passed on DGX Spark before the PR #11 rebase: `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-feature-list.json`.
-- PR #11 post-rebase verification is the active Codex task.
+- PR #11 post-rebase verification passed on DGX Spark for `./init.sh`, `git diff --check`, and `python3 -m json.tool feature_list.json >/tmp/video-pal-pr11-feature-list.json`.
 
 ## Next Step
 
-Codex completes the PR #11 rebase onto updated `main`, reruns verification, posts evidence, and hands off for ChatGPT review. Stage 1, Stage 2 repair, product implementation, deployment, privileged commands, and merge remain closed until separately authorized.
+Codex pushes PR #11, updates the PR body, posts exact post-rebase evidence, and hands off for ChatGPT review. Stage 1, Stage 2 repair, product implementation, deployment, privileged commands, and merge remain closed until separately authorized.

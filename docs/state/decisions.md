@@ -152,7 +152,7 @@ No numeric performance, reliability, privacy, security, accessibility, or portab
 
 ### Governance PR merge order
 
-PR #2, PR #4, and PR #6 have merged into `main`. PR #8 has been rebased onto updated `main` after PR #6 merge commit `4cc68bf4f16a7b30930c6b813d6a53185d41c2ce`; post-rebase DGX verification has passed, and ChatGPT accepted the Stage 0 code. PR #8 still requires cleanup review and explicit human merge authorization. PR #11 remains downstream and requires retargeting or rebasing after PR #8 settles.
+PR #2, PR #4, PR #6, and PR #8 have merged into `main`. PR #11 has been rebased onto updated `main` after PR #8 merge commit `b0fc66efb9bd7f0ccdc26c4a31368d205046e2cc`; post-rebase DGX verification has passed and ChatGPT re-review is pending. PR #11 still requires explicit human merge authorization before merge.
 
 ### Project-loop protocol approval
 
@@ -162,7 +162,7 @@ Issue #5 and PR #6 are merged project truth as of merge commit `4cc68bf4f16a7b30
 
 Issue #7 is assigned to Codex. On 2026-06-22, the human owner authorized Stage 0 implementation only on `codex/7-project-loop-v1`, using `chatgpt/5-project-loop-protocol` as the explicit stacked base unless prerequisites merge first. After PR #6 merged, PR #8 was rebased onto updated `main`.
 
-Stage 0 may implement dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR. GitHub writes remain disabled by default.
+Stage 0 dry-run selection, configuration, receipt validation, fixtures, deterministic tests, and a draft PR merged through PR #8. GitHub writes remain disabled by default.
 
 Stage 1 read-only PR verification and Stage 2 repair require separate human approval.
 
